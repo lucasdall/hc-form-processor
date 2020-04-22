@@ -38,18 +38,18 @@ public class FormProcessorController {
 	}
 	
 	
-	@PostMapping(path = "/webhook/{email}")
-	public ResponseEntity<Void> webhook(@RequestBody String payload, @PathVariable("email") String email, @RequestHeader(name = HttpHeaders.CONTENT_TYPE) String contentType) throws Exception {
-		log.info("begin - webhook - email[{}] contentType[{}]", email, contentType);
+	@PostMapping(path = "/webhook")
+	public ResponseEntity<Void> webhook(@RequestBody String payload, @RequestHeader(name = HttpHeaders.CONTENT_TYPE) String contentType) throws Exception {
+		log.info("begin - webhook - payload[{}] contentType[{}]", contentType);
 		try {
-			formResponseService.webhookSave(payload, email, contentType);
+			formResponseService.webhookSave(payload, contentType);
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
-			log.error("ERROR - webhook - email[{}] contentType[{}]", email, contentType);
+			log.error("ERROR - webhook - contentType[{}]", contentType);
 			log.error("ERROR - webhook", e);
 			throw e;
 		} finally {
-			log.info("end - webhook - email[{}] contentType[{}]", email, contentType);
+			log.info("end - webhook - contentType[{}]", contentType);
 		}
 	}
 

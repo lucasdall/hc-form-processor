@@ -40,13 +40,13 @@ public class FormResponseService {
 		return modelMapper.map(formResponseRepository.findTop1ByEmail(email), FormResponseDTO.class);
 	}
 	
-	public FormResponseDTO webhookSave(String payload, String email, String contentType) throws Exception {
-		log.info("begin - webhookSave - email[{}] contentType[{}]", email, contentType);
+	public FormResponseDTO webhookSave(String payload, String contentType) throws Exception {
+		log.info("begin - webhookSave - contentType[{}]", contentType);
+		String email = null;
 		try {
 			Map<String, Object> payloadMap = objectMapper.readValue(payload, new TypeReference<Map<String, Object>>() {
 			});
 			FormResponse entity = new FormResponse();
-			entity.setEmail(email);
 			entity.setContentType(contentType);
 			entity.setEventId((String) payloadMap.get("event_id"));
 			entity.setEventType((String) payloadMap.get("event_type"));
@@ -57,8 +57,14 @@ public class FormResponseService {
 					entity.setSubmittedAt(DateFormatUtils.ISO_8601_EXTENDED_DATETIME_FORMAT.parse((String) formResponse.get("submitted_at")));					
 				}
 				entity.setFormId((String) formResponse.get("form_id"));
+				
+				List<Map<String, Object>> answersList = (List<Map<String, Object>>) formResponse.get("answers");
+				if (answersList != null) {
+					email = (String) answersList.stream().filter(a -> a.containsKey("type") && a.containsValue("email")).findFirst().get().get("email");
+					log.info("email found in payload [{}]", email);
+					entity.setEmail(email);
+				}
 			}
-			
 			
 			formResponseRepository.save(entity);
 			return modelMapper.map(entity, FormResponseDTO.class);
