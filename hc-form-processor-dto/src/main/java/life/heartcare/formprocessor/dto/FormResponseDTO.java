@@ -1,0 +1,29 @@
+package life.heartcare.formprocessor.dto;
+
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class FormResponseDTO {
+
+	/**
+	 * 
+	 */
+	public static final long serialVersionUID = 803807158146010646L;
+
+	private Long idFormResponse;
+
+	private String email;
+
+	private String eventId;
+
+	private String eventType;
+
+	private String formId;
+
+	private Date submittedAt;
+
+	private String payload;
+
+}
