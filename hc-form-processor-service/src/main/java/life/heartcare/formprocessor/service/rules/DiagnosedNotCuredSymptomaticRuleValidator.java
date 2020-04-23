@@ -38,7 +38,7 @@ public class DiagnosedNotCuredSymptomaticRuleValidator implements RuleValidator 
 		if (hcTest != null) {
 			Boolean hcTestCond = hcTest.getChoice().testAny("fiz o teste e tenho o resultado de covid-19 positivo");
 			if (hcTestCond && hcCovidRecovered != null) {
-				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcSymptomsType.getBooleanVal());
+				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcCovidRecovered.getBooleanVal());
 				if (hcCovidRecoveredCond && hcSymptomsType != null) {
 					Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().getLabels().size() > 2;
 					hcSymptomsTypeCond = hcSymptomsTypeCond && hcSymptomsType.getChoices().testAny("nenhum destes") == false;
@@ -52,7 +52,7 @@ public class DiagnosedNotCuredSymptomaticRuleValidator implements RuleValidator 
 		if (hcTest != null) {
 			Boolean hcTestCond = hcTest.getChoice().testAny("fiz o teste e tenho o resultado de covid-19 positivo");
 			if (hcTestCond && hcCovidRecovered != null) {
-				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcSymptomsType.getBooleanVal());
+				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcCovidRecovered.getBooleanVal());
 				if (hcCovidRecoveredCond && hcSymptomsType != null) {
 					Boolean hcSymptomsTypeCond = 
 							hcSymptomsType.getChoices().testAll("tosse","febre") 
