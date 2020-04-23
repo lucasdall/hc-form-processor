@@ -51,6 +51,14 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>life.heartcare</groupId>
 			<artifactId>hc-form-processor-service</artifactId>
 			<version>1.0.0</version>
