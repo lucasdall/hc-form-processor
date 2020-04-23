@@ -40,7 +40,7 @@ public class FormProcessorController {
 	
 	@PostMapping(path = "/webhook")
 	public ResponseEntity<Void> webhook(@RequestBody String payload, @RequestHeader(name = HttpHeaders.CONTENT_TYPE) String contentType) throws Exception {
-		log.info("begin - webhook - payload[{}] contentType[{}]", contentType);
+		log.info("begin - webhook - contentType[{}]", contentType);
 		try {
 			formResponseService.webhookSave(payload, contentType);
 			return ResponseEntity.ok().build();

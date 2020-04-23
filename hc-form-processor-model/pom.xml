@@ -18,5 +18,10 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>life.heartcare</groupId>
+			<artifactId>hc-form-processor-dto</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 </project>
