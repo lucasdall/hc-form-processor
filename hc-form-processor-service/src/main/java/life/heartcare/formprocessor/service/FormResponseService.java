@@ -50,11 +50,27 @@ public class FormResponseService {
 		return dto;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public FormResponseDTO check(Long id) throws Exception {
 		log.info("begin - check - idFormResponse[{}]", id);
+		FormResponseDTO dto = null;
 		FormResponse entity = formResponseRepository.findById(id).get();
-		FormResponseDTO dto = webhookSave(entity.getPayload(), entity.getContentType());
+		Map<String, Object> payloadMap = objectMapper.readValue(entity.getPayload(), new TypeReference<Map<String, Object>>() {});
+		Map<String, Object> formResponse = (Map<String, Object>) payloadMap.get("form_response");
+		if (formResponse != null) {
+			List<Map<String, Object>> answersList = (List<Map<String, Object>>) formResponse.get("answers");
+			AnswerListDTO answers = new AnswerListDTO(objectMapper.convertValue(answersList, new TypeReference<List<AnswerDTO>>() {}));
+			if (answers != null) {
+				Results result = rulesService.execute(answers);
+				if (!result.equals(entity.getResult())) {
+					log.info("check - idFormResponse[{}] - changing FROM[{}] -> TO[{}]", id, entity.getResult(), result);
+					entity.setResult(result);
+					formResponseRepository.save(entity);
+					dto = modelMapper.map(entity, FormResponseDTO.class);
+				}
+			}
+		}
 		log.info("end - check - idFormResponse[{}]", id);
 		return dto;
 	}
