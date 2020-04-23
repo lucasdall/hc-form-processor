@@ -37,16 +37,25 @@ public class FormResponseService {
 	
 	@Autowired
 	RulesService rulesService;
-
+	
+	@Transactional
 	public List<FormResponseDTO> findByEmailOrderByIdFormResponseDesc(String email) {
 		return modelMapper.map(formResponseRepository.findByEmailOrderByIdFormResponseDesc(email), new TypeToken<List<FormResponseDTO>>() {}.getType());
+	}
+
+	@Transactional
+	public FormResponseDTO findById(Long id) {
+		FormResponse entity = formResponseRepository.findById(id).get();
+		FormResponseDTO dto = modelMapper.map(entity, FormResponseDTO.class); 
+		return dto;
 	}
 	
 	@Transactional
 	public FormResponseDTO findTop1ByEmail(String email) {
 		return modelMapper.map(formResponseRepository.findTop1ByEmail(email), FormResponseDTO.class);
 	}
-	
+
+	@Transactional
 	public FormResponseDTO webhookSave(String payload, String contentType) throws Exception {
 		log.info("begin - webhookSave - contentType[{}]", contentType);
 		String email = null;

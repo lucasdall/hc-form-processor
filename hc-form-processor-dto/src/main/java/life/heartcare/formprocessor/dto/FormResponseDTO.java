@@ -2,6 +2,7 @@ package life.heartcare.formprocessor.dto;
 
 import java.util.Date;
 
+import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
 
 @Data
@@ -25,5 +26,7 @@ public class FormResponseDTO {
 	private Date submittedAt;
 
 	private String payload;
+
+	private Results result;
 
 }

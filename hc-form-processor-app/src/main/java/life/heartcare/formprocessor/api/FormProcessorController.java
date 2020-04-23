@@ -1,5 +1,7 @@
 package life.heartcare.formprocessor.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,20 @@ public class FormProcessorController {
 	@Autowired
 	private FormResponseService formResponseService;
 
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<FormResponseDTO> findById(@PathVariable("id") Long id) throws Exception {
+		log.info("begin - findById - id[{}]", id);
+		try {
+			return ResponseEntity.ok(formResponseService.findById(id));
+		} catch (Exception e) {
+			log.error("ERROR - findById - id[{}]", id);
+			log.error("ERROR - findById", e);
+			throw e;
+		} finally {
+			log.info("end - findById - id[{}]", id);
+		}
+	}
+
 	@GetMapping(path = "/findlatest/byemail/{email}")
 	public ResponseEntity<FormResponseDTO> findLatestByEmail(@PathVariable("email") String email) throws Exception {
 		log.info("begin - findLatestByEmail - email[{}]", email);
@@ -37,7 +53,20 @@ public class FormProcessorController {
 		}
 	}
 	
-	
+	@GetMapping(path = "/findall/byemail/{email}")
+	public ResponseEntity<List<FormResponseDTO>> findAllByEmail(@PathVariable("email") String email) throws Exception {
+		log.info("begin - findAllByEmail - email[{}]", email);
+		try {
+			return ResponseEntity.ok(formResponseService.findByEmailOrderByIdFormResponseDesc(email));
+		} catch (Exception e) {
+			log.error("ERROR - findAllByEmail - email[{}]", email);
+			log.error("ERROR - findAllByEmail", e);
+			throw e;
+		} finally {
+			log.info("end - findAllByEmail - email[{}]", email);
+		}
+	}
+
 	@PostMapping(path = "/webhook")
 	public ResponseEntity<Void> webhook(@RequestBody String payload, @RequestHeader(name = HttpHeaders.CONTENT_TYPE) String contentType) throws Exception {
 		log.info("begin - webhook - contentType[{}]", contentType);

@@ -11,7 +11,7 @@ import life.heartcare.formprocessor.model.FormResponse;
 public interface FormResponseRepository extends CrudRepository<FormResponse, Long>{
 
 	List<FormResponse> findByEmailOrderByIdFormResponseDesc(String email);
-	
+
 	FormResponse findTop1ByEmail(String email);
 	
 }
