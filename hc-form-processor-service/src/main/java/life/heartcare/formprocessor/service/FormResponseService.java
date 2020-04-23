@@ -67,8 +67,8 @@ public class FormResponseService {
 					log.info("check - idFormResponse[{}] - changing FROM[{}] -> TO[{}]", id, entity.getResult(), result);
 					entity.setResult(result);
 					formResponseRepository.save(entity);
-					dto = modelMapper.map(entity, FormResponseDTO.class);
 				}
+				dto = modelMapper.map(entity, FormResponseDTO.class);
 			}
 		}
 		log.info("end - check - idFormResponse[{}]", id);
