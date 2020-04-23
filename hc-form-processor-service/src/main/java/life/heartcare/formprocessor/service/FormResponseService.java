@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import life.heartcare.formprocessor.dto.AnswerDTO;
 import life.heartcare.formprocessor.dto.AnswerListDTO;
 import life.heartcare.formprocessor.dto.FormResponseDTO;
+import life.heartcare.formprocessor.dto.FormResponseResumedDTO;
 import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import life.heartcare.formprocessor.dto.enums.Results;
 import life.heartcare.formprocessor.model.FormResponse;
@@ -76,8 +77,8 @@ public class FormResponseService {
 	}
 
 	@Transactional
-	public FormResponseDTO findTop1ByEmail(String email) {
-		return modelMapper.map(formResponseRepository.findTop1ByEmail(email), FormResponseDTO.class);
+	public FormResponseResumedDTO findTop1ByEmail(String email) {
+		return modelMapper.map(formResponseRepository.findTop1ByEmail(email), FormResponseResumedDTO.class);
 	}
 
 	@SuppressWarnings("unchecked")

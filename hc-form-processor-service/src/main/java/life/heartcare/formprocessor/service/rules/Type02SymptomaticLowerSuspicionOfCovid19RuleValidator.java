@@ -25,7 +25,7 @@ public class Type02SymptomaticLowerSuspicionOfCovid19RuleValidator implements Ru
 						  "quero fazer o teste",
 						  "não quero fazer o teste");
 			if (hcSymptomsType != null && hcTestCond) {
-				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().getLabels().size() <= 2;
+				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().getLabels().size() >= 2;
 				hcSymptomsTypeCond = hcSymptomsTypeCond && hcSymptomsType.getChoices().testAny("falta de ar", "nenhum destes") == false;
 				if (hcSymptomsCritical != null && hcSymptomsTypeCond) {
 					Boolean hcSymptomsCriticalCond = Boolean.FALSE.equals(hcSymptomsCritical.getBooleanVal());

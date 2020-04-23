@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import life.heartcare.formprocessor.dto.FormResponseDTO;
+import life.heartcare.formprocessor.dto.FormResponseResumedDTO;
 import life.heartcare.formprocessor.service.FormResponseService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +55,7 @@ public class FormProcessorController {
 	}
 
 	@GetMapping(path = "/findlatest/byemail/{email}")
-	public ResponseEntity<FormResponseDTO> findLatestByEmail(@PathVariable("email") String email) throws Exception {
+	public ResponseEntity<FormResponseResumedDTO> findLatestByEmail(@PathVariable("email") String email) throws Exception {
 		log.info("begin - findLatestByEmail - email[{}]", email);
 		try {
 			return ResponseEntity.ok(formResponseService.findTop1ByEmail(email));

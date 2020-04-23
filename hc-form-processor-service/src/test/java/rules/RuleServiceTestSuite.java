@@ -48,7 +48,17 @@ public class RuleServiceTestSuite {
 	public void type10_002() throws Exception {
 		assertTrue(Results.TYPE_10_DiagnosedCured.equals(runType("/rules/type_10_002.txt")));
 	}
-	
+
+	@Test
+	public void type06_001() throws Exception {
+		assertTrue(Results.TYPE_06_SymptomaticFluSuspicion.equals(runType("/rules/type_06_001.txt")));
+	}
+
+	@Test
+	public void type09_001() throws Exception {
+		assertTrue(Results.TYPE_09_DiagnosedNotCuredAsymptomatic.equals(runType("/rules/type_09_001.txt")));
+	}
+
 	private Results runType(String file) throws Exception {
 		String json  = IOUtils.toString(RuleServiceTestSuite.class.getResourceAsStream(file), StandardCharsets.UTF_8);
 		AnswerListDTO a = loadPayload(json);
