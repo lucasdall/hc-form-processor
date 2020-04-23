@@ -8,7 +8,7 @@ import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import life.heartcare.formprocessor.dto.enums.Results;
 
 @Component
-public class SymptomaticLowerSuspicionRuleValidator implements RuleValidator {
+public class Type07HasNothingJustCuriousRuleValidator implements RuleValidator {
 
 	@Override
 	public boolean match(AnswerListDTO answers) {
@@ -29,8 +29,7 @@ public class SymptomaticLowerSuspicionRuleValidator implements RuleValidator {
 				if (hcSymptomsTypeCond && hcSymptomsBreathe != null) {
 					Boolean hcSymptomsBreatheCond = hcSymptomsBreathe.getChoices().testAny("está normal");
 					if (hcSymptomsBreatheCond && hcSymptomsOthers != null) {
-						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().getLabels().isEmpty() == false;
-						hcSymptomsOthersCond = hcSymptomsOthersCond && hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar") == false;
+						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("nenhum destes");
 						if (hcSymptomsOthersCond && hcContactInfected != null) {
 							Boolean hcContactInfectedCond = hcContactInfected.getChoices().getLabels().isEmpty() == false;
 							hcContactInfectedCond = hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
@@ -38,6 +37,7 @@ public class SymptomaticLowerSuspicionRuleValidator implements RuleValidator {
 								return true;
 							}
 						}
+
 					}
 				}
 			}
@@ -45,11 +45,10 @@ public class SymptomaticLowerSuspicionRuleValidator implements RuleValidator {
 		
 		return false;
 	}
-	
+
 	@Override
 	public Results getResult() {
-		return Results.TYPE_05_SymptomaticLowerSuspicion;
+		return Results.TYPE_07_HasNothingJustCurious;
 	}
-
 
 }

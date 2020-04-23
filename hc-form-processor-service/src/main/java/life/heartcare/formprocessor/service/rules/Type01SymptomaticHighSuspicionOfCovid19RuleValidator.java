@@ -8,7 +8,7 @@ import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import life.heartcare.formprocessor.dto.enums.Results;
 
 @Component
-public class SymptomaticHighSuspicionOfCovid19RuleValidator implements RuleValidator {
+public class Type01SymptomaticHighSuspicionOfCovid19RuleValidator implements RuleValidator {
 
 	@Override
 	public boolean match(AnswerListDTO answers) {

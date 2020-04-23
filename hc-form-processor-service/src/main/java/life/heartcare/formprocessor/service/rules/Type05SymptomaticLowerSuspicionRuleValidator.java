@@ -8,32 +8,32 @@ import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import life.heartcare.formprocessor.dto.enums.Results;
 
 @Component
-public class AsymptomaticLowerSuspicionRuleValidator implements RuleValidator {
+public class Type05SymptomaticLowerSuspicionRuleValidator implements RuleValidator {
 
 	@Override
 	public boolean match(AnswerListDTO answers) {
 		AnswerDTO hcTest = answers.getById(QuestionsLabelsId.HC_TEST);
 		AnswerDTO hcSymptomsType = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_TYPE);
+		AnswerDTO hcSymptomsBreathe = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_BREATHE);
 		AnswerDTO hcSymptomsOthers = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_OTHERS);
 		AnswerDTO hcContactInfected = answers.getById(QuestionsLabelsId.HC_CONTACT_INFECTED);
-		AnswerDTO hcSymptomsBreathe = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_BREATHE);
 
 		if (hcTest != null) {
 			Boolean hcTestCond = hcTest.getChoice()
 					.testAny("fiz o teste e tenho o resultado de covid-19 negativo",
-							  "fiz o teste, mas ainda estou aguardando o resultado",
-							  "quero fazer o teste",
-							  "não quero fazer o teste");
+						  "fiz o teste, mas ainda estou aguardando o resultado",
+						  "quero fazer o teste",
+						  "não quero fazer o teste");
 			if (hcSymptomsType != null && hcTestCond) {
 				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().testAny("nenhum destes");
-				
 				if (hcSymptomsTypeCond && hcSymptomsBreathe != null) {
 					Boolean hcSymptomsBreatheCond = hcSymptomsBreathe.getChoices().testAny("está normal");
 					if (hcSymptomsBreatheCond && hcSymptomsOthers != null) {
-						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("nenhum destes");
+						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().getLabels().isEmpty() == false;
+						hcSymptomsOthersCond = hcSymptomsOthersCond && hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar") == false;
 						if (hcSymptomsOthersCond && hcContactInfected != null) {
-							Boolean hcContactInfectedCond = !hcContactInfected.getChoices().getLabels().isEmpty();
-							hcContactInfectedCond = hcContactInfectedCond && hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
+							Boolean hcContactInfectedCond = hcContactInfected.getChoices().getLabels().isEmpty() == false;
+							hcContactInfectedCond = hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
 							if (hcContactInfectedCond) {
 								return true;
 							}
@@ -45,10 +45,11 @@ public class AsymptomaticLowerSuspicionRuleValidator implements RuleValidator {
 		
 		return false;
 	}
-
+	
 	@Override
 	public Results getResult() {
-		return Results.TYPE_04_AsymptomaticHighSuspicion;
+		return Results.TYPE_05_SymptomaticLowerSuspicion;
 	}
+
 
 }

@@ -8,21 +8,27 @@ import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import life.heartcare.formprocessor.dto.enums.Results;
 
 @Component
-public class DiagnosedCuredRuleValidator implements RuleValidator {
+public class Type10DiagnosedCuredRuleValidator implements RuleValidator {
 
 	@Override
 	public boolean match(AnswerListDTO answers) {
 		AnswerDTO hcTest = answers.getById(QuestionsLabelsId.HC_TEST);
 		AnswerDTO hcCovidRecovered = answers.getById(QuestionsLabelsId.HC_COVID_RECOVERED);
-		AnswerDTO hcSymptomsType = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_TYPE);
 
 		if (hcTest != null) {
-			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e tenho o resultado de COVID-19 positivo", "Fiz o teste e já estou imune ao vírus");
+			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e tenho o resultado de COVID-19 positivo");
 			if (hcTestCond && hcCovidRecovered != null) {
 				Boolean hcCovidRecoveredCond = Boolean.TRUE.equals(hcCovidRecovered.getBooleanVal());
 				if (hcCovidRecoveredCond) {
 					return true;
 				}
+			}
+		}
+		// or
+		if (hcTest != null) {
+			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e já estou imune ao vírus");
+			if (hcTestCond) {
+				return true;
 			}
 		}
 

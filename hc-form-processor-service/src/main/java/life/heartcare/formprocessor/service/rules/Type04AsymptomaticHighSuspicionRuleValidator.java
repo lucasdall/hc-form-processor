@@ -8,7 +8,7 @@ import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import life.heartcare.formprocessor.dto.enums.Results;
 
 @Component
-public class AsymptomaticHighSuspicionRuleValidator implements RuleValidator {
+public class Type04AsymptomaticHighSuspicionRuleValidator implements RuleValidator {
 
 
 	@Override

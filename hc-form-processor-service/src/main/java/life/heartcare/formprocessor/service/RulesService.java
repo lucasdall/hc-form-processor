@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
 
 import life.heartcare.formprocessor.dto.AnswerListDTO;
 import life.heartcare.formprocessor.dto.enums.Results;
-import life.heartcare.formprocessor.service.rules.AsymptomaticHighSuspicionRuleValidator;
-import life.heartcare.formprocessor.service.rules.AsymptomaticLowerSuspicionRuleValidator;
-import life.heartcare.formprocessor.service.rules.DiagnosedCuredRuleValidator;
-import life.heartcare.formprocessor.service.rules.DiagnosedNotCuredAsymptomaticRuleValidator;
-import life.heartcare.formprocessor.service.rules.DiagnosedNotCuredSymptomaticRuleValidator;
-import life.heartcare.formprocessor.service.rules.HasNothingJustCuriousRuleValidator;
+import life.heartcare.formprocessor.service.rules.Type04AsymptomaticHighSuspicionRuleValidator;
+import life.heartcare.formprocessor.service.rules.Type03AsymptomaticLowerSuspicionRuleValidator;
+import life.heartcare.formprocessor.service.rules.Type10DiagnosedCuredRuleValidator;
+import life.heartcare.formprocessor.service.rules.Type09DiagnosedNotCuredAsymptomaticRuleValidator;
+import life.heartcare.formprocessor.service.rules.Type08DiagnosedNotCuredSymptomaticRuleValidator;
+import life.heartcare.formprocessor.service.rules.Type07HasNothingJustCuriousRuleValidator;
 import life.heartcare.formprocessor.service.rules.RuleValidator;
-import life.heartcare.formprocessor.service.rules.SymptomaticFluSuspicionRuleValidator;
-import life.heartcare.formprocessor.service.rules.SymptomaticHighSuspicionOfCovid19RuleValidator;
-import life.heartcare.formprocessor.service.rules.SymptomaticLowerSuspicionOfCovid19RuleValidator;
-import life.heartcare.formprocessor.service.rules.SymptomaticLowerSuspicionRuleValidator;
+import life.heartcare.formprocessor.service.rules.Type06SymptomaticFluSuspicionRuleValidator;
+import life.heartcare.formprocessor.service.rules.Type01SymptomaticHighSuspicionOfCovid19RuleValidator;
+import life.heartcare.formprocessor.service.rules.Type02SymptomaticLowerSuspicionOfCovid19RuleValidator;
+import life.heartcare.formprocessor.service.rules.Type05SymptomaticLowerSuspicionRuleValidator;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -29,34 +29,34 @@ import lombok.extern.slf4j.Slf4j;
 public class RulesService {
 
 	@Autowired
-	private SymptomaticHighSuspicionOfCovid19RuleValidator type01;
+	private Type01SymptomaticHighSuspicionOfCovid19RuleValidator type01;
 
 	@Autowired
-	private SymptomaticLowerSuspicionOfCovid19RuleValidator type02;
+	private Type02SymptomaticLowerSuspicionOfCovid19RuleValidator type02;
 
 	@Autowired
-	private AsymptomaticLowerSuspicionRuleValidator type03;
+	private Type03AsymptomaticLowerSuspicionRuleValidator type03;
 
 	@Autowired
-	private AsymptomaticHighSuspicionRuleValidator type04;
+	private Type04AsymptomaticHighSuspicionRuleValidator type04;
 
 	@Autowired
-	private SymptomaticLowerSuspicionRuleValidator type05;
+	private Type05SymptomaticLowerSuspicionRuleValidator type05;
 
 	@Autowired
-	private SymptomaticFluSuspicionRuleValidator type06;
+	private Type06SymptomaticFluSuspicionRuleValidator type06;
 
 	@Autowired
-	private HasNothingJustCuriousRuleValidator type07;
+	private Type07HasNothingJustCuriousRuleValidator type07;
 
 	@Autowired
-	private DiagnosedNotCuredSymptomaticRuleValidator type08;
+	private Type08DiagnosedNotCuredSymptomaticRuleValidator type08;
 
 	@Autowired
-	private DiagnosedNotCuredAsymptomaticRuleValidator type09;
+	private Type09DiagnosedNotCuredAsymptomaticRuleValidator type09;
 
 	@Autowired
-	private DiagnosedCuredRuleValidator type10;
+	private Type10DiagnosedCuredRuleValidator type10;
 
 	private List<RuleValidator> rules = new ArrayList<>(0);
 

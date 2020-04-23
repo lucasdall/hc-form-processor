@@ -8,7 +8,7 @@ import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import life.heartcare.formprocessor.dto.enums.Results;
 
 @Component
-public class SymptomaticFluSuspicionRuleValidator implements RuleValidator {
+public class Type02SymptomaticLowerSuspicionOfCovid19RuleValidator implements RuleValidator {
 
 	@Override
 	public boolean match(AnswerListDTO answers) {
@@ -16,6 +16,7 @@ public class SymptomaticFluSuspicionRuleValidator implements RuleValidator {
 		AnswerDTO hcSymptomsType = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_TYPE);
 		AnswerDTO hcSymptomsCritical = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_CRITICAL);
 		AnswerDTO hcSymptomsOthers = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_OTHERS);
+		AnswerDTO hcContactInfected = answers.getById(QuestionsLabelsId.HC_CONTACT_INFECTED);
 
 		if (hcTest != null) {
 			Boolean hcTestCond = hcTest.getChoice()
@@ -24,14 +25,18 @@ public class SymptomaticFluSuspicionRuleValidator implements RuleValidator {
 						  "quero fazer o teste",
 						  "não quero fazer o teste");
 			if (hcSymptomsType != null && hcTestCond) {
-				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().testAny("tosse", "dor de garganta", "febre");
-				if (hcSymptomsTypeCond && hcSymptomsCritical != null) {
+				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().getLabels().size() <= 2;
+				hcSymptomsTypeCond = hcSymptomsTypeCond && hcSymptomsType.getChoices().testAny("falta de ar", "nenhum destes") == false;
+				if (hcSymptomsCritical != null && hcSymptomsTypeCond) {
 					Boolean hcSymptomsCriticalCond = Boolean.FALSE.equals(hcSymptomsCritical.getBooleanVal());
-					if (hcSymptomsCriticalCond && hcSymptomsOthers != null) {
+					if (hcSymptomsCriticalCond) {
 						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().getLabels().isEmpty() == false;
 						hcSymptomsOthersCond = hcSymptomsOthersCond && hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar") == false;
-						if (hcSymptomsOthersCond) {
-							return true;
+						if (hcSymptomsOthersCond && hcContactInfected != null) {
+							Boolean hcContactInfectedCond = hcContactInfected.getChoices().testAny("nenhuma destas opções");
+							if (hcContactInfectedCond) {
+								return true;
+							}
 						}
 					}
 				}
@@ -43,7 +48,7 @@ public class SymptomaticFluSuspicionRuleValidator implements RuleValidator {
 	
 	@Override
 	public Results getResult() {
-		return Results.TYPE_06_SymptomaticFluSuspicion;
+		return Results.TYPE_02_SymptomaticLowerSuspicionOfCovid19;
 	}
 
 

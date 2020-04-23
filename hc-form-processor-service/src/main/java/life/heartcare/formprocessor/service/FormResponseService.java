@@ -49,12 +49,22 @@ public class FormResponseService {
 		FormResponseDTO dto = modelMapper.map(entity, FormResponseDTO.class); 
 		return dto;
 	}
-	
+
+	@Transactional
+	public FormResponseDTO check(Long id) throws Exception {
+		log.info("begin - check - idFormResponse[{}]", id);
+		FormResponse entity = formResponseRepository.findById(id).get();
+		FormResponseDTO dto = webhookSave(entity.getPayload(), entity.getContentType());
+		log.info("end - check - idFormResponse[{}]", id);
+		return dto;
+	}
+
 	@Transactional
 	public FormResponseDTO findTop1ByEmail(String email) {
 		return modelMapper.map(formResponseRepository.findTop1ByEmail(email), FormResponseDTO.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public FormResponseDTO webhookSave(String payload, String contentType) throws Exception {
 		log.info("begin - webhookSave - contentType[{}]", contentType);

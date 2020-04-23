@@ -1,4 +1,4 @@
-package life.heartcare.formprocessor.api.cfg;
+package life.heartcare.formprocessor.service.cfg;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

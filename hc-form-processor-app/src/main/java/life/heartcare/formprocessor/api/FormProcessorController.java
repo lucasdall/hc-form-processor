@@ -39,6 +39,20 @@ public class FormProcessorController {
 		}
 	}
 
+	@GetMapping(path = "/{id}/check")
+	public ResponseEntity<FormResponseDTO> check(@PathVariable("id") Long id) throws Exception {
+		log.info("begin - check - id[{}]", id);
+		try {
+			return ResponseEntity.ok(formResponseService.check(id));
+		} catch (Exception e) {
+			log.error("ERROR - check - id[{}]", id);
+			log.error("ERROR - check", e);
+			throw e;
+		} finally {
+			log.info("end - check - id[{}]", id);
+		}
+	}
+
 	@GetMapping(path = "/findlatest/byemail/{email}")
 	public ResponseEntity<FormResponseDTO> findLatestByEmail(@PathVariable("email") String email) throws Exception {
 		log.info("begin - findLatestByEmail - email[{}]", email);
