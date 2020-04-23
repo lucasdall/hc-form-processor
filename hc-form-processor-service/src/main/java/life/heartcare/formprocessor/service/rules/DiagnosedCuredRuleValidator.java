@@ -17,7 +17,7 @@ public class DiagnosedCuredRuleValidator implements RuleValidator {
 		AnswerDTO hcSymptomsType = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_TYPE);
 
 		if (hcTest != null) {
-			Boolean hcTestCond = hcTest.getChoice().testAny("fiz o teste e tenho o resultado de covid-19 positivo", "fiz o teste e já estou imune ao vírus");
+			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e tenho o resultado de COVID-19 positivo", "Fiz o teste e já estou imune ao vírus");
 			if (hcTestCond && hcCovidRecovered != null) {
 				Boolean hcCovidRecoveredCond = Boolean.TRUE.equals(hcCovidRecovered.getBooleanVal());
 				if (hcCovidRecoveredCond) {

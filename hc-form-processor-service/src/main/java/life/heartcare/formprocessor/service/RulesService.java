@@ -70,10 +70,11 @@ public class RulesService {
 		Results res = Results.TYPE_11_Unknown;
 		try {
 			for (RuleValidator rule : rules) {
-				log.info("rule type [{}]", rule.getClass().getSimpleName());
+				log.info("rule type [{}]", rule.getResult());
 				Boolean returnBool = rule.match(answers);
 				if (Boolean.TRUE.equals(returnBool)) {
 					res = rule.getResult();
+					break;
 				}
 			}
 

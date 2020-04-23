@@ -20,8 +20,8 @@ public class SymptomaticHighSuspicionOfCovid19RuleValidator implements RuleValid
 			Boolean hcTestCond = hcTest.getChoice()
 					.testAny("fiz o teste e tenho o resultado de covid-19 negativo",
 						  "fiz o teste, mas ainda estou aguardando o resultado",
-						  "não fiz e quero fazer",
-						  "Não fiz e não quero fazer");
+						  "quero fazer o teste",
+						  "não quero fazer o teste");
 			if (hcSymptomsType != null && hcTestCond) {
 				Boolean hcSymptomsTypeCond = 
 						hcSymptomsType.getChoices().testAll("tosse","febre") 

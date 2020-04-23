@@ -21,7 +21,7 @@ public class DiagnosedNotCuredAsymptomaticRuleValidator implements RuleValidator
 		AnswerDTO hcContactInfected = answers.getById(QuestionsLabelsId.HC_CONTACT_INFECTED);
 
 		if (hcTest != null) {
-			Boolean hcTestCond = hcTest.getChoice().testAny("fiz o teste e tenho o resultado de covid-19 positivo");
+			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e tenho o resultado de COVID-19 positivo");
 			if (hcTestCond && hcCovidRecovered != null) {
 				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcCovidRecovered.getBooleanVal());
 				if (hcCovidRecoveredCond && hcSymptomsType != null) {
