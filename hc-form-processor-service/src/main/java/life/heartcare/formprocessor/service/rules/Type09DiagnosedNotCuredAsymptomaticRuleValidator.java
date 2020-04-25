@@ -35,7 +35,6 @@ public class Type09DiagnosedNotCuredAsymptomaticRuleValidator implements RuleVal
 								if (hcContactInfectedCond) {
 									return true;
 								}
-								
 							}
 						}
 					}

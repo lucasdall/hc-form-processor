@@ -19,7 +19,6 @@ public class Type04AsymptomaticHighSuspicionRuleValidator implements RuleValidat
 		AnswerDTO hcContactInfected = answers.getById(QuestionsLabelsId.HC_CONTACT_INFECTED);
 		AnswerDTO hcSymptomsBreathe = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_BREATHE);
 		AnswerDTO hcProtectPartners = answers.getById(QuestionsLabelsId.HC_PROTECTED_PARTNERS);
-		AnswerDTO hchcProtectPartners = answers.getById(QuestionsLabelsId.HC_PROTECTED_PARTNERS);
 		
 		if (hcTest != null) {
 			Boolean hcTestCond = hcTest.getChoice()
@@ -29,20 +28,18 @@ public class Type04AsymptomaticHighSuspicionRuleValidator implements RuleValidat
 							  "não quero fazer o teste");
 			if (hcSymptomsType != null && hcTestCond) {
 				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().testAny("nenhum destes");
-				
 				if (hcSymptomsTypeCond && hcSymptomsBreathe != null) {
 					Boolean hcSymptomsBreatheCond = hcSymptomsBreathe.getChoices().testAny("está normal");
 					if (hcSymptomsBreatheCond && hcSymptomsOthers != null) {
 						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("nenhum destes");
 						if (hcSymptomsOthersCond && hcContactInfected != null) {
-							Boolean hcContactInfectedCond = !hcContactInfected.getChoices().getLabels().isEmpty();
-							hcContactInfectedCond = hcContactInfectedCond && hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
+							Boolean hcContactInfectedCond = 
+									hcContactInfected.getChoices().getLabels().isEmpty() == false
+									&& hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
 							if (hcContactInfectedCond && hcProtectPartners != null) {
-								hcContactInfectedCond = hcContactInfectedCond && hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
-								if (hcContactInfectedCond && hchcProtectPartners != null) {
-									if (Boolean.TRUE.equals(hchcProtectPartners.getBooleanVal())) {
-										return true;
-									}
+								Boolean hcProtectPartnersCond = hcProtectPartners.getBooleanVal();
+								if (Boolean.FALSE.equals(hcProtectPartnersCond)) {
+									return true;
 								}
 							}
 						}

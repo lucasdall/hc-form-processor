@@ -31,13 +31,13 @@ public class Type07HasNothingJustCuriousRuleValidator implements RuleValidator {
 					if (hcSymptomsBreatheCond && hcSymptomsOthers != null) {
 						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("nenhum destes");
 						if (hcSymptomsOthersCond && hcContactInfected != null) {
-							Boolean hcContactInfectedCond = hcContactInfected.getChoices().getLabels().isEmpty() == false;
-							hcContactInfectedCond = hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
+							Boolean hcContactInfectedCond = 
+									hcContactInfected.getChoices().getLabels().isEmpty() == false
+									&& hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
 							if (hcContactInfectedCond) {
 								return true;
 							}
 						}
-
 					}
 				}
 			}

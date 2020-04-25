@@ -17,7 +17,6 @@ public class Type03AsymptomaticLowerSuspicionRuleValidator implements RuleValida
 		AnswerDTO hcSymptomsOthers = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_OTHERS);
 		AnswerDTO hcContactInfected = answers.getById(QuestionsLabelsId.HC_CONTACT_INFECTED);
 		AnswerDTO hcSymptomsBreathe = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_BREATHE);
-		AnswerDTO hchcProtectPartners = answers.getById(QuestionsLabelsId.HC_PROTECTED_PARTNERS);
 
 		if (hcTest != null) {
 			Boolean hcTestCond = hcTest.getChoice()
@@ -33,12 +32,11 @@ public class Type03AsymptomaticLowerSuspicionRuleValidator implements RuleValida
 					if (hcSymptomsBreatheCond && hcSymptomsOthers != null) {
 						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("nenhum destes");
 						if (hcSymptomsOthersCond && hcContactInfected != null) {
-							Boolean hcContactInfectedCond = !hcContactInfected.getChoices().getLabels().isEmpty();
-							hcContactInfectedCond = hcContactInfectedCond && hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
-							if (hcContactInfectedCond && hchcProtectPartners != null) {
-								if (Boolean.TRUE.equals(hchcProtectPartners.getBooleanVal())) {
-									return true;
-								}
+							Boolean hcContactInfectedCond = 
+									hcContactInfected.getChoices().getLabels().isEmpty() == false
+									&& hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
+							if (hcContactInfectedCond) {
+								return true;
 							}
 						}
 					}

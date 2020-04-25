@@ -29,11 +29,13 @@ public class Type05SymptomaticLowerSuspicionRuleValidator implements RuleValidat
 				if (hcSymptomsTypeCond && hcSymptomsBreathe != null) {
 					Boolean hcSymptomsBreatheCond = hcSymptomsBreathe.getChoices().testAny("está normal");
 					if (hcSymptomsBreatheCond && hcSymptomsOthers != null) {
-						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().getLabels().isEmpty() == false;
-						hcSymptomsOthersCond = hcSymptomsOthersCond && hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar") == false;
+						Boolean hcSymptomsOthersCond = 
+								hcSymptomsOthers.getChoices().getLabels().isEmpty() == false
+								&& hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar") == false;
 						if (hcSymptomsOthersCond && hcContactInfected != null) {
-							Boolean hcContactInfectedCond = hcContactInfected.getChoices().getLabels().isEmpty() == false;
-							hcContactInfectedCond = hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
+							Boolean hcContactInfectedCond = 
+									hcContactInfected.getChoices().getLabels().isEmpty() == false
+									&& hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
 							if (hcContactInfectedCond) {
 								return true;
 							}

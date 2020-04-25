@@ -21,56 +21,17 @@ public class Type08DiagnosedNotCuredSymptomaticRuleValidator implements RuleVali
 			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e tenho o resultado de COVID-19 positivo");
 			if (hcTestCond && hcCovidRecovered != null) {
 				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcCovidRecovered.getBooleanVal());
-				if (hcCovidRecoveredCond && hcSymptomsType != null) {
-					Boolean hcSymptomsTypeCond = 
-							hcSymptomsType.getChoices().testAll("tosse","febre") 
-						 || hcSymptomsType.getChoices().testAll("tosse","dor de garganta")
-						 || hcSymptomsType.getChoices().testAll("febre","dor de garganta")
-						 || hcSymptomsType.getChoices().testAny("falta de ar");
-					hcSymptomsTypeCond = hcSymptomsTypeCond && hcSymptomsType.getChoices().testAny("nenhum destes") == false;
-					if (hcSymptomsTypeCond) {
-						return true;
-					}
+				Boolean hcSymptomsTypeCond = 
+							hcSymptomsType.getChoices().getLabels().isEmpty() == false 
+							&& hcSymptomsType.getChoices().testAny("nenhum destes") == false;
+				Boolean hcSymptomsOthersCond = 
+							hcSymptomsOthers.getChoices().getLabels().isEmpty() == false
+							&& hcSymptomsOthers.getChoices().testAny("nenhum destes") == false;
+				if (hcCovidRecoveredCond || hcSymptomsTypeCond || hcSymptomsOthersCond) {
+					return true;
 				}
 			}
 		}
-		// or
-		if (hcTest != null) {
-			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e tenho o resultado de COVID-19 positivo");
-			if (hcTestCond && hcCovidRecovered != null) {
-				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcCovidRecovered.getBooleanVal());
-				if (hcCovidRecoveredCond && hcSymptomsType != null) {
-					Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().getLabels().size() > 2;
-					hcSymptomsTypeCond = hcSymptomsTypeCond && hcSymptomsType.getChoices().testAny("nenhum destes") == false;
-					if (hcSymptomsTypeCond) {
-						return true;
-					}
-				}
-			}
-		}
-		// or
-		if (hcTest != null) {
-			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e tenho o resultado de COVID-19 positivo");
-			if (hcTestCond && hcCovidRecovered != null) {
-				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcCovidRecovered.getBooleanVal());
-				if (hcCovidRecoveredCond && hcSymptomsType != null) {
-					Boolean hcSymptomsTypeCond = 
-							hcSymptomsType.getChoices().testAll("tosse","febre") 
-						 || hcSymptomsType.getChoices().testAll("tosse","dor de garganta")
-						 || hcSymptomsType.getChoices().testAll("febre","dor de garganta")
-						 || hcSymptomsType.getChoices().testAny("falta de ar");
-					hcSymptomsTypeCond = hcSymptomsTypeCond && hcSymptomsType.getChoices().testAny("nenhum destes") == false;
-					if (hcSymptomsTypeCond && hcSymptomsOthers != null) {
-						Boolean hcSymptomsOthersCond = !hcSymptomsOthers.getChoices().getLabels().isEmpty();
-						hcSymptomsOthersCond = hcSymptomsOthersCond && hcSymptomsOthers.getChoices().testAny("falta de olfato", "falta de paladar") == false;
-						if (hcSymptomsOthersCond) {
-							return true;
-						}
-					}
-				}
-			}
-		}
-		
 		return false;
 	}
 
