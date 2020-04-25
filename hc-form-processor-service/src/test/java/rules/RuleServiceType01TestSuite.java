@@ -35,8 +35,8 @@ public class RuleServiceType01TestSuite {
 	private ObjectMapper objectMapper;
 	
 	@Test
-	public void type01_001() throws Exception {
-		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("/rules/type_01_001.txt")));
+	public void type01_01_id89() throws Exception {
+		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("/rules/type_01_id89.txt")));
 	}
 
 	@Test

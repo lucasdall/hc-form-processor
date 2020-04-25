@@ -66,7 +66,7 @@ public class Type01SymptomaticHighSuspicionOfCovid19RuleValidator implements Rul
 						  "não quero fazer o teste");
 			if (hcSymptomsType != null && hcTestCond) {
 				Boolean hcSymptomsTypeCond = 
-						hcSymptomsType.getChoices().getLabels().size() >= 3 
+						hcSymptomsType.getChoices().getLabels().size() >= 3
 						&& hcSymptomsType.getChoices().testAny("nenhum destes") == false;
 				if (hcSymptomsTypeCond && hcSymptomsCritical != null) {
 					Boolean hcSymptomsCriticalCond = Boolean.TRUE.equals(hcSymptomsCritical.getBooleanVal());
@@ -113,26 +113,19 @@ public class Type01SymptomaticHighSuspicionOfCovid19RuleValidator implements Rul
 						  "não quero fazer o teste");
 			if (hcSymptomsType != null && hcTestCond) {
 				Boolean hcSymptomsTypeCond = 
-						hcSymptomsType.getChoices().getLabels().size() > 2 
+						hcSymptomsType.getChoices().getLabels().size() >= 2 
 						&& hcSymptomsType.getChoices().testAny("nenhum destes") == false;
 						if (hcSymptomsTypeCond && hcSymptomsBreathe != null) {
-							Boolean hcSymptomsBreatheCond = hcSymptomsBreathe.getChoices().testAny("está normal");
-							if (hcSymptomsBreatheCond) {
-								Boolean hcSymptomsCriticalCond = Boolean.TRUE.equals(hcSymptomsCritical.getBooleanVal());
-								if (hcSymptomsCriticalCond) {
-									if (hcSymptomsCriticalCond && hcSymptomsOthers != null) {
-										Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices()
-												.testAny("falta de olfato", "falta de paladar");
-										if (hcSymptomsOthersCond) {
-											return true;
-										}
-									}
+							if (hcSymptomsOthers != null) {
+								Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices()
+									.testAny("falta de olfato", "falta de paladar");
+								if (hcSymptomsOthersCond) {
+									return true;
 								}
 							}
 						}
 			}
 		}		
-		
 		return false;
 	}
 
