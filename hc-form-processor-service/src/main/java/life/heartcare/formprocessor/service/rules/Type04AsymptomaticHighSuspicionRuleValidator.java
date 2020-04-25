@@ -19,6 +19,7 @@ public class Type04AsymptomaticHighSuspicionRuleValidator implements RuleValidat
 		AnswerDTO hcContactInfected = answers.getById(QuestionsLabelsId.HC_CONTACT_INFECTED);
 		AnswerDTO hcSymptomsBreathe = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_BREATHE);
 		AnswerDTO hcProtectPartners = answers.getById(QuestionsLabelsId.HC_PROTECTED_PARTNERS);
+		AnswerDTO hchcProtectPartners = answers.getById(QuestionsLabelsId.HC_PROTECTED_PARTNERS);
 		
 		if (hcTest != null) {
 			Boolean hcTestCond = hcTest.getChoice()
@@ -37,9 +38,11 @@ public class Type04AsymptomaticHighSuspicionRuleValidator implements RuleValidat
 							Boolean hcContactInfectedCond = !hcContactInfected.getChoices().getLabels().isEmpty();
 							hcContactInfectedCond = hcContactInfectedCond && hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
 							if (hcContactInfectedCond && hcProtectPartners != null) {
-								Boolean hcProtectPartnersCond = Boolean.FALSE.equals(hcProtectPartners.getBooleanVal());
-								if (hcProtectPartnersCond) {
-									return true;
+								hcContactInfectedCond = hcContactInfectedCond && hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
+								if (hcContactInfectedCond && hchcProtectPartners != null) {
+									if (Boolean.TRUE.equals(hchcProtectPartners.getBooleanVal())) {
+										return true;
+									}
 								}
 							}
 						}

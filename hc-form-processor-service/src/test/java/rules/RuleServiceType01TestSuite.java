@@ -26,7 +26,7 @@ import life.heartcare.formprocessor.service.cfg.JacksonCfg;
 @RunWith(SpringRunner.class)
 @Import({RulesService.class, JacksonCfg.class})
 @ComponentScan("life.heartcare.formprocessor.service.rules")
-public class RuleServiceTestSuite {
+public class RuleServiceType01TestSuite {
 
 	@Autowired
 	private RulesService rulesService;
@@ -46,17 +46,17 @@ public class RuleServiceTestSuite {
 
 	@Test
 	public void type01_005_rota5() throws Exception {
-		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("type_001_rota5.txt")));
+		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("/rules/type_001_rota5.txt")));
 	}
 
 	@Test
 	public void type01_rota7() throws Exception {
-		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("type_01_rota7.txt")));
+		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("/rules/type_01_rota7.txt")));
 	}
 
 	@Test
 	public void type01_rota8() throws Exception {
-		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("type_01_rota8.txt")));
+		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("/rules/type_01_rota8.txt")));
 	}
 
 	@Test
@@ -64,64 +64,11 @@ public class RuleServiceTestSuite {
 		assertTrue(Results.TYPE_01_SymptomaticHighSuspicionOfCovid19.equals(runType("/rules/type_01_007.txt")));
 	}
 
-	@Test
-	public void type03_001() throws Exception {
-		assertTrue(Results.TYPE_03_AsymptomaticLowerSuspicion.equals(runType("/rules/type_03_001.txt")));
-	}
-
-
-	@Test
-	public void type03_002() throws Exception {
-		assertTrue(Results.TYPE_03_AsymptomaticLowerSuspicion.equals(runType("/rules/type_03_002.txt")));
-	}
-
-	@Test
-	public void type03_003() throws Exception {
-		assertTrue(Results.TYPE_03_AsymptomaticLowerSuspicion.equals(runType("/rules/type_03_003.txt")));
-	}
-
-	@Test
-	public void type03_004() throws Exception {
-		assertTrue(Results.TYPE_03_AsymptomaticLowerSuspicion.equals(runType("/rules/type_03_004.txt")));
-	}
-
-	@Test
-	public void type04_001() throws Exception {
-		assertTrue(Results.TYPE_04_AsymptomaticHighSuspicion.equals(runType("/rules/type_04_001.txt")));
-	}
-
-	@Test
-	public void type10_001() throws Exception {
-		assertTrue(Results.TYPE_10_DiagnosedCured.equals(runType("/rules/type_10_001.txt")));
-	}
-
-	@Test
-	public void type10_002() throws Exception {
-		assertTrue(Results.TYPE_10_DiagnosedCured.equals(runType("/rules/type_10_002.txt")));
-	}
-
-	
-	@Test
-	public void type06_001() throws Exception {
-		assertTrue(Results.TYPE_06_SymptomaticFluSuspicion.equals(runType("/rules/type_06_001.txt")));
-	}
-
-	@Test
-	public void type06_002() throws Exception {
-		assertTrue(Results.TYPE_06_SymptomaticFluSuspicion.equals(runType("/rules/type_06_002.txt")));
-	}
-
-	@Test
-	public void type09_001() throws Exception {
-		assertTrue(Results.TYPE_09_DiagnosedNotCuredAsymptomatic.equals(runType("/rules/type_09_001.txt")));
-	}
-
 	private Results runType(String file) throws Exception {
-		String json  = IOUtils.toString(RuleServiceTestSuite.class.getResourceAsStream(file), StandardCharsets.UTF_8);
+		String json  = IOUtils.toString(RuleServiceType01TestSuite.class.getResourceAsStream(file), StandardCharsets.UTF_8);
 		AnswerListDTO a = loadPayload(json);
 		return rulesService.execute(a);
 	}
-	
 	
 	@SuppressWarnings("unchecked")
 	private AnswerListDTO loadPayload(String json) throws Exception {
