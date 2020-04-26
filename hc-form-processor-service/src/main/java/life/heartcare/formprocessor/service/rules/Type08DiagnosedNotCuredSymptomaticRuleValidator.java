@@ -33,7 +33,7 @@ public class Type08DiagnosedNotCuredSymptomaticRuleValidator implements RuleVali
 							hcSymptomsOthers.getChoices().getLabels().isEmpty() == false
 							&& hcSymptomsOthers.getChoices().testAny("nenhum destes") == false;
 				}
-				if (hcCovidRecoveredCond || hcSymptomsTypeCond || hcSymptomsOthersCond) {
+				if (hcCovidRecoveredCond && (hcSymptomsTypeCond || hcSymptomsOthersCond)) {
 					return true;
 				}
 			}
