@@ -21,8 +21,10 @@ import life.heartcare.formprocessor.dto.AnswerListDTO;
 import life.heartcare.formprocessor.dto.FormResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseEmailDTO;
 import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class EmailService {
 
 	@Autowired
@@ -41,6 +43,7 @@ public class EmailService {
 	private ModelMapper modelMapper;
 
 	public void sendCovidMessage(FormResponseDTO dto) throws Exception {
+		log.info("begin - sendCovidMessage [{}] result [{}]", dto.getEmail(), dto.getResult());
 		FormResponseEmailDTO emailDTO = convertFrom(dto);
 		String html = FreeMarkerTemplateUtils.processTemplateIntoString(emailResult, emailDTO);
 		Email email = EmailBuilder.startingBlank()
@@ -48,6 +51,7 @@ public class EmailService {
 				.withSubject("Suas recomendações para COVID-19")
 				.withHTMLText(html).buildEmail();
 		customMailer.sendMail(email, true);
+		log.info("end - sendCovidMessage [{}] result [{}]", dto.getEmail(), dto.getResult());
 	}
 
 	@SuppressWarnings("unchecked")

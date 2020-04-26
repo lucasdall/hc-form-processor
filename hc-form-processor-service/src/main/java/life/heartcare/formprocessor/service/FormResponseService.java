@@ -120,7 +120,17 @@ public class FormResponseService {
 			}
 			
 			formResponseRepository.save(entity);
-			return modelMapper.map(entity, FormResponseDTO.class);
+			FormResponseDTO dto = modelMapper.map(entity, FormResponseDTO.class);
+			
+			try {
+				emailService.sendCovidMessage(dto);				
+			} catch (Exception e) {
+				log.error("ERROR - webhookSave - send email failure - email[{}] idFormResponse[{}]", email, dto.getIdFormResponse());
+				log.error("ERROR - webhookSave - send email failure", e);
+			}
+			
+			return dto;
+			
 		} catch (Exception e) {
 			log.error("ERROR - webhookSave - email[{}] contentType[{}]", email, contentType);
 			log.error("ERROR - webhookSave", e);

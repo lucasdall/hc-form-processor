@@ -21,12 +21,18 @@ public class Type08DiagnosedNotCuredSymptomaticRuleValidator implements RuleVali
 			Boolean hcTestCond = hcTest.getChoice().testAny("Fiz o teste e tenho o resultado de COVID-19 positivo");
 			if (hcTestCond && hcCovidRecovered != null) {
 				Boolean hcCovidRecoveredCond = Boolean.FALSE.equals(hcCovidRecovered.getBooleanVal());
-				Boolean hcSymptomsTypeCond = 
+				Boolean hcSymptomsTypeCond = Boolean.FALSE; 
+				if (hcSymptomsType != null) {
+					hcSymptomsTypeCond = 
 							hcSymptomsType.getChoices().getLabels().isEmpty() == false 
 							&& hcSymptomsType.getChoices().testAny("nenhum destes") == false;
-				Boolean hcSymptomsOthersCond = 
+				}
+				Boolean hcSymptomsOthersCond = Boolean.FALSE;
+				if (hcSymptomsOthers != null) {
+						hcSymptomsOthersCond =
 							hcSymptomsOthers.getChoices().getLabels().isEmpty() == false
 							&& hcSymptomsOthers.getChoices().testAny("nenhum destes") == false;
+				}
 				if (hcCovidRecoveredCond || hcSymptomsTypeCond || hcSymptomsOthersCond) {
 					return true;
 				}
