@@ -8,7 +8,6 @@ import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.email.EmailBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
@@ -30,9 +29,6 @@ public class EmailService {
 	@Autowired
 	private Mailer customMailer;
 	
-	@Value("${spring.mail.from}")
-	private String FROM;
-
 	@Autowired
 	private Template emailResult;
 	
