@@ -39,6 +39,9 @@ public class FormResponseService {
 	@Autowired
 	RulesService rulesService;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	@Transactional
 	public List<FormResponseDTO> findByEmailOrderByIdFormResponseDesc(String email) {
 		return modelMapper.map(formResponseRepository.findByEmailOrderByIdFormResponseDesc(email), new TypeToken<List<FormResponseDTO>>() {}.getType());
@@ -70,6 +73,7 @@ public class FormResponseService {
 					formResponseRepository.save(entity);
 				}
 				dto = modelMapper.map(entity, FormResponseDTO.class);
+				emailService.sendCovidMessage(dto);
 			}
 		}
 		log.info("end - check - idFormResponse[{}]", id);

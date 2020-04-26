@@ -33,7 +33,6 @@ public class AnswerDTO implements Serializable {
 	
 	private String email;
 	
-	
-	
+	private String text;
 	
 }

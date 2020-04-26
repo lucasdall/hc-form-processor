@@ -1,12 +1,14 @@
 package life.heartcare.formprocessor.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
 
 @Data
-public class FormResponseDTO {
+public class FormResponseEmailDTO {
 
 	/**
 	 * 
@@ -17,17 +19,13 @@ public class FormResponseDTO {
 
 	private String email;
 
-	private String eventId;
-
-	private String eventType;
-
-	private String formId;
-
 	private Date submittedAt;
 
 	private String payload;
 
 	private Results result;
 
+	private String name;
 	
+	private List<String> symptoms = new ArrayList<>(0);
 }
