@@ -16,4 +16,3 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push $DKR_PATH/$IMAGE_REPO_NAME:$VERSION
-
