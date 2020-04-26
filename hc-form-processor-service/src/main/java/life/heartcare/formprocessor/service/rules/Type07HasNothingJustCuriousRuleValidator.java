@@ -33,7 +33,7 @@ public class Type07HasNothingJustCuriousRuleValidator implements RuleValidator {
 						if (hcSymptomsOthersCond && hcContactInfected != null) {
 							Boolean hcContactInfectedCond = 
 									hcContactInfected.getChoices().getLabels().isEmpty() == false
-									&& hcContactInfected.getChoices().testAny("nenhuma destas opções") == false;
+									&& hcContactInfected.getChoices().testAny("nenhuma destas opções");
 							if (hcContactInfectedCond) {
 								return true;
 							}
