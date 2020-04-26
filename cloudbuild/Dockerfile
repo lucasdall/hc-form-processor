@@ -13,4 +13,4 @@ RUN mvn clean package
 FROM openjdk:11.0.7-jre-slim
 COPY --from=build /home/app/src/hc-form-processor-app/target/hc-form-processor-app-1.0.0.jar /usr/local/lib/hc-form-processor-app-1.0.0.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-Dspring.profiles.active=dev", "-jar","/usr/local/lib/hc-form-processor-app-1.0.0.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=hom", "-jar","/usr/local/lib/hc-form-processor-app-1.0.0.jar"]
