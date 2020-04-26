@@ -10,6 +10,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...          
       - docker build -f cloudbuild/Dockerfile -t $IMAGE_REPO_NAME:$VERSION .
+      - docker tag $IMAGE_REPO_NAME:$VERSION $DKR_PATH/$IMAGE_REPO_NAME:$VERSION      
   post_build:
     commands:
       - echo Build completed on `date`
