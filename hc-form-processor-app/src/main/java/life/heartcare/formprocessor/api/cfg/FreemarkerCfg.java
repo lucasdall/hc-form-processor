@@ -18,7 +18,7 @@ public class FreemarkerCfg {
 	
 	@Bean
 	public Template emailResult(FreeMarkerConfig freemarkerConfig) throws Throwable {
-        Template t = freemarkerConfig.getConfiguration().getTemplate("result-email.ftl");
+        Template t = freemarkerConfig.getConfiguration().getTemplate("result.html");
         return t;
 	}
 	

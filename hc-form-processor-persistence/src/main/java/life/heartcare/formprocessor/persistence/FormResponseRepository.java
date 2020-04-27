@@ -12,6 +12,6 @@ public interface FormResponseRepository extends CrudRepository<FormResponse, Lon
 
 	List<FormResponse> findByEmailOrderByIdFormResponseDesc(String email);
 
-	FormResponse findTop1ByEmail(String email);
+	FormResponse findTop1ByEmailOrderByIdFormResponseDesc(String email);
 	
 }

@@ -15,7 +15,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import life.heartcare.formprocessor.dto.AnswerDTO;
 import life.heartcare.formprocessor.dto.AnswerListDTO;
+import life.heartcare.formprocessor.dto.CheckResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseDTO;
+import life.heartcare.formprocessor.dto.FormResponseResultDTO;
 import life.heartcare.formprocessor.dto.FormResponseResumedDTO;
 import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import life.heartcare.formprocessor.dto.enums.Results;
@@ -82,9 +84,48 @@ public class FormResponseService {
 
 	@Transactional
 	public FormResponseResumedDTO findTop1ByEmail(String email) {
-		return modelMapper.map(formResponseRepository.findTop1ByEmail(email), FormResponseResumedDTO.class);
+		FormResponse fp = formResponseRepository.findTop1ByEmailOrderByIdFormResponseDesc(email);
+		if (fp != null) {
+			return modelMapper.map(fp, FormResponseResumedDTO.class);
+		}
+		return null;
 	}
 
+
+	@Transactional
+	public CheckResponseDTO checkResponse(String email, Integer retryAttempt, Integer retryTimeout) {
+		FormResponse fp = formResponseRepository.findTop1ByEmailOrderByIdFormResponseDesc(email);
+		if (fp != null) {
+			CheckResponseDTO resp = new CheckResponseDTO();
+			resp.setIdFormResponse(fp.getIdFormResponse());
+			resp.setEmail(email);
+			resp.setIdFormResponse(fp.getIdFormResponse());
+			resp.setFound(Boolean.TRUE);
+			return resp;
+		} else {
+			CheckResponseDTO resp = new CheckResponseDTO();
+			resp.setEmail(email);
+			resp.setFound(Boolean.FALSE);
+			Boolean lastAttempt = Boolean.FALSE;
+			if (retryAttempt != null) {
+				resp.setRetryAttempt(--retryAttempt);
+				if (retryAttempt <= 0) {
+					lastAttempt = true;
+				}
+			}
+			if (retryTimeout != null) {
+				resp.setRetryTimeout(retryTimeout);
+			}
+			if (!lastAttempt) {
+				resp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, resp.getRetryAttempt(), resp.getRetryTimeout()));
+			} else {
+				resp.setFinished(Boolean.TRUE);
+				resp.setLink("/api/formprocessor/result/notfound");
+			}
+			return resp;
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public FormResponseDTO webhookSave(String payload, String contentType) throws Exception {
@@ -138,6 +179,37 @@ public class FormResponseService {
 		} finally {
 			log.info("end - webhookSave");
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public FormResponseResultDTO convertFrom(FormResponseDTO formRespDTO) throws Exception {
+		FormResponseResultDTO resultDTO = modelMapper.map(formRespDTO, FormResponseResultDTO.class);
+		String payload = resultDTO.getPayload();
+		Map<String, Object> payloadMap = objectMapper.readValue(payload, new TypeReference<Map<String, Object>>() {
+		});
+		Map<String, Object> formResponse = (Map<String, Object>) payloadMap.get("form_response");
+		if (formResponse != null) {
+			List<Map<String, Object>> answersList = (List<Map<String, Object>>) formResponse.get("answers");
+			AnswerListDTO answers = new AnswerListDTO(objectMapper.convertValue(answersList, new TypeReference<List<AnswerDTO>>() {
+			}));
+			if (answers != null) {
+				AnswerDTO name = answers.getById(QuestionsLabelsId.HC_NAME);
+				if (name != null) {
+					resultDTO.setName(name.getText());
+				}
+				AnswerDTO hcSymptomsType = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_TYPE);
+				if (hcSymptomsType != null) {
+					resultDTO.getSymptoms().addAll(hcSymptomsType.getChoices().getLabels());
+				}
+				AnswerDTO hcSymptomsOthers = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_OTHERS);
+				if (hcSymptomsOthers != null) {
+					resultDTO.getSymptoms().addAll(hcSymptomsOthers.getChoices().getLabels());
+				}
+				resultDTO.getSymptoms().removeIf(s -> "nenhum destes".equalsIgnoreCase(s));
+			}
+		}
+		resultDTO.loadDetail();
+		return resultDTO;
 	}
 
 }

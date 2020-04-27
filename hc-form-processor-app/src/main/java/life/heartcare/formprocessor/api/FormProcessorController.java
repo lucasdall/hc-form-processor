@@ -1,6 +1,7 @@
 package life.heartcare.formprocessor.api;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import life.heartcare.formprocessor.dto.CheckResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseDTO;
-import life.heartcare.formprocessor.dto.FormResponseResumedDTO;
+import life.heartcare.formprocessor.dto.FormResponseResultDTO;
+import life.heartcare.formprocessor.dto.enums.Results;
 import life.heartcare.formprocessor.service.FormResponseService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,11 +58,12 @@ public class FormProcessorController {
 		}
 	}
 
-	@GetMapping(path = "/findlatest/byemail/{email}")
-	public ResponseEntity<FormResponseResumedDTO> findLatestByEmail(@PathVariable("email") String email) throws Exception {
+	@GetMapping(path = {"/findlatest/byemail/{email}", "/findlatest/byemail/{email}/{retryAttempt}/{retryTimeout}"})
+	public ResponseEntity<CheckResponseDTO> findLatestByEmail(@PathVariable("email") String email, @PathVariable(name = "retryTimeout", required = false) Integer retryTimeout, @PathVariable(name = "retryAttempt", required = false) Integer retryAttempt) throws Exception {
 		log.info("begin - findLatestByEmail - email[{}]", email);
 		try {
-			return ResponseEntity.ok(formResponseService.findTop1ByEmail(email));
+			CheckResponseDTO dto = formResponseService.checkResponse(email, retryAttempt, retryTimeout);
+			return ResponseEntity.ok(dto);
 		} catch (Exception e) {
 			log.error("ERROR - findLatestByEmail - email[{}]", email);
 			log.error("ERROR - findLatestByEmail", e);
@@ -95,6 +100,32 @@ public class FormProcessorController {
 		} finally {
 			log.info("end - webhook - contentType[{}]", contentType);
 		}
+	}
+	
+	@GetMapping(path = "/result/{email}")
+	public ModelAndView result(@PathVariable String email) throws Exception {
+		CheckResponseDTO dto = formResponseService.checkResponse(email, 10, Long.valueOf(TimeUnit.SECONDS.toMillis(5)).intValue());
+		if (dto != null && dto.getFound()) {
+			FormResponseResultDTO dtoResp = formResponseService.convertFrom(formResponseService.findById(dto.getIdFormResponse()));
+			dtoResp.setChannel("web");
+			return new ModelAndView("result", "dto", dtoResp);
+		} else {
+			FormResponseResultDTO dtoResp = new FormResponseResultDTO();
+			dtoResp.setEmail(email);
+			dtoResp.setChannel("web");
+			dtoResp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, dto.getRetryAttempt(), dto.getRetryTimeout()));
+			return new ModelAndView("processing", "dto", dtoResp);
+		}
+	}
+
+	@GetMapping(path = "/result/notfound")
+	public ModelAndView resultNotFound() throws Exception {
+		FormResponseResultDTO dtoResp = new FormResponseResultDTO();
+		dtoResp.setResult(Results.TYPE_11_Unknown);
+		dtoResp.setName("Prezado");
+		dtoResp.loadDetail();
+		dtoResp.setChannel("web");
+		return new ModelAndView("result", "dto", dtoResp);
 	}
 
 }
