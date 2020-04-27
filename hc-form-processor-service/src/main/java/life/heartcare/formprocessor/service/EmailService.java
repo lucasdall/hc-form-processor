@@ -1,5 +1,8 @@
 package life.heartcare.formprocessor.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.email.EmailBuilder;
@@ -28,7 +31,9 @@ public class EmailService {
 	public void sendCovidMessage(FormResponseDTO dto) throws Exception {
 		log.info("begin - sendCovidMessage [{}] result [{}]", dto.getEmail(), dto.getResult());
 		FormResponseResultDTO emailDTO = formResponseService.convertFrom(dto);
-		String html = FreeMarkerTemplateUtils.processTemplateIntoString(emailResult, emailDTO);
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", emailDTO);
+		String html = FreeMarkerTemplateUtils.processTemplateIntoString(emailResult, map);
 		Email email = EmailBuilder.startingBlank()
 				.to(dto.getEmail())
 				.withSubject("Suas recomendações para COVID-19")
