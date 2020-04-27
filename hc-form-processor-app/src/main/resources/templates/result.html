@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="pt-BR">
+<html lang="pt-BR" style="background-color: #f4f4f4;font-family: Poppins, Helvetica, Arial, sans-serif;">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -157,54 +157,59 @@
     </style>
   </head>
 
-  <body>
-    <div id="header">
-      <a href="https://www.heartcare.life" target="_blank"><img src="https://covid.heartcare.life/assets/mail/assets/images/heartcare-covid-logo.png"> <span>Acessar o site</span></a>
+  <body style="font-family: Poppins, Helvetica, Arial, sans-serif;max-width: 800px;background-color: #eef1f6;margin: 0 auto;">
+    <div id="header" style="background-color: #fff;width: 100%;height: 70px;">
+      <a href="https://www.heartcare.life" target="_blank" style="width: 100%;display: block;text-decoration: none;"><img src="https://covid.heartcare.life/assets/mail/assets/images/heartcare-covid-logo.png" style="margin: 0 auto;display: block;width: 280px;padding-top: 13px;padding-left: 20px;"> <span style="display: block;font-size: 13px;color: #9b9b9b;text-align: center;padding-top: 2px;">Acessar o site</span></a>
     </div>
 
-    <div id="result" class="card"><img src="${dto.detail.linkAlertImg}">
-      <h1>${dto.name}, de acordo com suas respostas, ${dto.detail.disclaimer}</h1>
+    <div id="result" class="card" style="border-radius: 10px;margin-left: 30px;margin-right: 30px;padding: 20px;margin-top: 30px;background-color: #fff;"><img src="${dto.detail.linkAlertImg}" style="display: block;margin: auto;">
+      <h1 style="color: #596d85;font-size: 18px;text-align: center;">${dto.name}, de acordo com suas respostas, ${dto.detail.disclaimer}</h1>
 		 <#list dto.detail.descriptions as d>
 	       <p>${d}</p>
 		 </#list>
 		 
+		 
       <#if dto.detail?has_content && dto.detail.showSymptoms?? == true>
-      <p>Fique bastante atento aos sintomas aqui relatados por você:</p>
-	   <ul>
+      <p style="font-size: 15px;color: #7d7d7d;">Fique bastante atento aos sintomas aqui relatados por você:</p>
+	   <ul style="padding-left: 20px;">
 		 <#list dto.symptoms as s>
-	       <li>${s}</li>
-		 </#list>
+	       <li style="color: #7d7d7d;font-size: 13px;font-weight: 700;line-height: 20px;">${s}</li>
+		 </#list>		 
        </ul>
-      </#if>
+      </#if>      
       
     </div>
 
      <#if dto.detail?? && dto.detail.recommendations?has_content>
-	    <div id="recommendation" class="card">
-	      <p class="header">Recomendações!</p>
-	      <div class="rightside-mobile"><img src="https://covid.heartcare.life/assets/mail/assets/images/doctor.png"></div>
+	    <div id="recommendation" class="card" style="border-radius: 10px;margin-left: 30px;margin-right: 30px;padding: 20px;margin-top: 30px;background-color: #fff;">
+	      <p class="header" style="font-size: 15px;color: #7d7d7d;font-weight: 600;">Recomendações!</p>
+	      <div class="rightside-mobile" style="text-align: center;display: block;width: 100%;"><img src="https://covid.heartcare.life/assets/mail/assets/images/doctor.png" style="height: 230px;"></div>
 	      <div class="leftside">
 	      <#list dto.detail.recommendations as rec>
-		       <p><strong> ${rec?counter}. ${rec.title} </strong></p>
+		       <p style="font-size: 15px;color: #7d7d7d;"><strong> ${rec?counter}. ${rec.title} </strong></p>
 		       <#list rec.recommendations as recLabel>
-		       	  <p>${recLabel}</p>	
+		       	  <p style="font-size: 15px;color: #7d7d7d;">${recLabel}</p>	
+		       <br>
 		       </#list>
 		       <br/>
 		  </#list>
 	      </div>
       </#if>
-      <p class="header"> Refaça este teste sempre que quiser ou quando perceber alguma alteração importante nos sintomas.</p> 
-      <br>
-      <p class="footer"> Caso não saiba os contatos de emergência em sua região baixe nosso aplicativo.</p> 
+      
+      <div style="text-align: center;margin-top: 30px;padding: 30px;background-color: #fff;">
+	      <p class="header" style="font-size: 15px;color: #7d7d7d;font-weight: 600;"> Refaça este teste sempre que quiser ou quando perceber alguma alteração importante nos sintomas.</p> 
+	      <br>
+	      <p class="footer" style="font-size: 16px;font-weight: 400;color: #596d85;text-align: center;"> Caso não saiba os contatos de emergência em sua região baixe nosso aplicativo.</p>
+      </div> 
     </div>
 
-    <div id="footer">
-      <a class="heartcare" href="https://www.heartcare.life"><img src="https://covid.heartcare.life/assets/mail/assets/images/helpers/heart-care-logo.png"> </a>
-      <a class="stores" href="https://www.heartcare.life/app"><img src="https://covid.heartcare.life/assets/mail/assets/images/buttons/btn-app-store.png"></a>
-      <p>O objetivo da Heart Care é ajudar os usuários a terem rotinas mais saudáveis, além de cultivar o hábito do monitoramento constante da saúde.</p>
-      <p>Heart Care não é uma ferramenta clínica, mas uma aplicação de saúde e bem-estar. O uso de Heart Care não substitui cuidados médicos, exames clínicos ou acompanhamento por profissionais especializados.</p>
-      <p>Copyright © Heart Care . A Health Care Company</p>
-      <p>Av. Faria Lima, 4055, São Paulo, SP, Brasil</p><img class="hipaa" src="https://covid.heartcare.life/assets/mail/assets/images/helpers/ce-hipaa.png"></div>
+    <div id="footer" style="text-align: center;margin-top: 30px;padding: 30px;background-color: #fff;">
+      <a class="heartcare" href="https://www.heartcare.life" style="display: block;margin-bottom: 10px;"><img src="https://covid.heartcare.life/assets/mail/assets/images/helpers/heart-care-logo.png" style="max-height: 66px;max-width: 115px;"> </a>
+      <a class="stores" href="https://www.heartcare.life/app" style="display: block;margin-top: 30px;margin-bottom: 30px;"><img src="https://covid.heartcare.life/assets/mail/assets/images/buttons/btn-app-store.png" style="height: 35px;width: 264px;"></a>
+      <p style="font-size: 12px;color: #7d7d7d;font-weight: 300;">O objetivo da Heart Care é ajudar os usuários a terem rotinas mais saudáveis, além de cultivar o hábito do monitoramento constante da saúde.</p>
+      <p style="font-size: 12px;color: #7d7d7d;font-weight: 300;">Heart Care não é uma ferramenta clínica, mas uma aplicação de saúde e bem-estar. O uso de Heart Care não substitui cuidados médicos, exames clínicos ou acompanhamento por profissionais especializados.</p>
+      <p style="font-size: 12px;color: #7d7d7d;font-weight: 300;">Copyright © Heart Care . A Health Care Company</p>
+      <p style="font-size: 12px;color: #7d7d7d;font-weight: 300;">Av. Faria Lima, 4055, São Paulo, SP, Brasil</p><img class="hipaa" src="https://covid.heartcare.life/assets/mail/assets/images/helpers/ce-hipaa.png" style="margin-top: 20px;max-height: 26px;max-width: 85px;"></div>
   </body>
   
 <#if dto.channel?? &&  dto.channel == 'web'>
