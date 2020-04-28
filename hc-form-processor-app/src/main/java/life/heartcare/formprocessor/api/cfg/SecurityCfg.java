@@ -23,7 +23,7 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			auth.inMemoryAuthentication()
-			.withUser("user").password(encoder.encode("password")).roles("USER").and().withUser(API_LOGIN).password(encoder.encode(API_PWD)).roles("USER", "ADMIN");
+			.withUser(API_LOGIN).password(encoder.encode(API_PWD)).roles("USER", "ADMIN");
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
 			.headers().frameOptions().sameOrigin()
 			.and()
 			.authorizeRequests()
-			.antMatchers("/*", "/api/formprocessor/webhook", "/result/*", "/api/formprocessor/findlatest/byemail/*").permitAll()
+			.antMatchers("/*", "/api/formprocessor/processing*", "/api/formprocessor/webhook", "/result/*", "/api/formprocessor/findlatest/byemail/*").permitAll()
 			.anyRequest().authenticated()
 			.and().httpBasic();
 	}
