@@ -96,7 +96,7 @@ public class FormResponseService {
 
 	@Transactional
 	public CheckResponseDTO checkResponse(String email, Integer retryAttempt, Integer retryTimeout) {
-		log.info("begin - email[{}] retryAttempt[{}] retryTimeout[{}]");
+		log.info("begin - email[{}] retryAttempt[{}] retryTimeout[{}]", email, retryAttempt, retryTimeout);
 		FormResponse fp = formResponseRepository.findTop1ByEmailOrderByIdFormResponseDesc(email);
 		Date lastMinute = DateUtils.addMinutes(new Date(), -1);
 		Boolean hasNewResponse = Boolean.FALSE;
@@ -121,11 +121,11 @@ public class FormResponseService {
 		} else {
 			resp.setEmail(email);
 			resp.setFound(Boolean.FALSE);
-			if (retryAttempt != null) {
-				resp.setRetryAttempt(--retryAttempt);
-				if (retryAttempt <= 0) {
-					lastAttempt = true;
-				}
+		}
+		if (retryAttempt != null) {
+			resp.setRetryAttempt(--retryAttempt);
+			if (retryAttempt <= 0) {
+				lastAttempt = true;
 			}
 		}
 		if (retryTimeout != null) {
@@ -137,7 +137,7 @@ public class FormResponseService {
 		} else {
 			resp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, resp.getRetryAttempt(), resp.getRetryTimeout()));
 		}
-		log.info("begin - email[{}] retryAttempt[{}] retryTimeout[{}]");			
+		log.info("end - email[{}] retryAttempt[{}] retryTimeout[{}]", email, retryAttempt, retryTimeout);
 		return resp;
 	}
 	
