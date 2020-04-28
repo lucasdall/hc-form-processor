@@ -134,9 +134,12 @@ public class FormResponseService {
 		if (lastAttempt) {
 			resp.setLink("/api/formprocessor/result/notfound");
 			resp.setFinished(Boolean.TRUE);
+		} else if (resp.getFound()){
+			resp.setLink(String.format("/api/formprocessor/result/%s", email));
 		} else {
 			resp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, resp.getRetryAttempt(), resp.getRetryTimeout()));
 		}
+		log.info("link [{}]", resp.getLink());
 		log.info("end - email[{}] retryAttempt[{}] retryTimeout[{}]", email, retryAttempt, retryTimeout);
 		return resp;
 	}
