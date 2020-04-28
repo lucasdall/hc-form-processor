@@ -1,5 +1,6 @@
 package life.heartcare.formprocessor.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -18,7 +19,7 @@ public class FormResponseResumedDTO {
 	private Long idFormResponse;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-	private Date submittedAt;
+	private LocalDateTime submittedAt;
 
 	private Results result;
 

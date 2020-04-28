@@ -1,6 +1,6 @@
 package life.heartcare.formprocessor.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,15 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "form_response", indexes = { @Index(name = "idx_form_response", columnList="email", unique = false) })
+@Table(name = "form_response", indexes = { @Index(name = "idx_form_response", columnList = "email", unique = false) })
 public class FormResponse {
 
 	/**
@@ -31,12 +29,12 @@ public class FormResponse {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_form_response")
 	private Long idFormResponse;
-	
+
 	private String email;
-	
+
 	@Column(name = "event_id")
 	private String eventId;
-	
+
 	@Column(name = "event_type")
 	private String eventType;
 
@@ -47,13 +45,13 @@ public class FormResponse {
 	private String contentType;
 
 	@Column(name = "submitted_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date submittedAt;
-	
+//	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime submittedAt;
+
 	@Lob
 	private String payload;
 
 	@Enumerated
 	private Results result;
-	
+
 }

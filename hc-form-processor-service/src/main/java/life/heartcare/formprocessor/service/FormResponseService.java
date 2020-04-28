@@ -102,7 +102,7 @@ public class FormResponseService {
 		if (fp != null) {
 			log.info("findTop1ByEmail - lastMinute[{}]", lastMinute);
 			log.info("findTop1ByEmail - formResponse.submitedAt[{}]", fp.getSubmittedAt());
-			if (fp.getSubmittedAt().after(lastMinute)) {
+			if (fp.getSubmittedAt().isAfter(life.heartcare.formprocessor.dto.utils.DateUtils.convertToLocalDateTimeViaInstant(lastMinute))) {
 				log.info("findTop1ByEmail - new response id [{}]", fp.getIdFormResponse());
 				hasNewResponse = Boolean.TRUE;
 			} else {
@@ -156,7 +156,7 @@ public class FormResponseService {
 			Map<String, Object> formResponse = (Map<String, Object>) payloadMap.get("form_response");
 			if (formResponse != null) {
 				if (formResponse.containsKey("submitted_at")) {
-					entity.setSubmittedAt(DateFormatUtils.ISO_8601_EXTENDED_DATETIME_FORMAT.parse((String) formResponse.get("submitted_at")));					
+					entity.setSubmittedAt(life.heartcare.formprocessor.dto.utils.DateUtils.convertToLocalDateTimeViaInstant(DateFormatUtils.ISO_8601_EXTENDED_DATETIME_FORMAT.parse((String) formResponse.get("submitted_at"))));					
 				}
 				entity.setFormId((String) formResponse.get("form_id"));
 				
