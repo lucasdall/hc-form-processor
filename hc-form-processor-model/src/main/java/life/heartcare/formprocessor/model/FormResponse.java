@@ -1,6 +1,6 @@
 package life.heartcare.formprocessor.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
@@ -45,8 +47,8 @@ public class FormResponse {
 	private String contentType;
 
 	@Column(name = "submitted_at")
-//	@Temporal(TemporalType.TIMESTAMP)
-	private LocalDateTime submittedAt;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date submittedAt;
 
 	@Lob
 	private String payload;
