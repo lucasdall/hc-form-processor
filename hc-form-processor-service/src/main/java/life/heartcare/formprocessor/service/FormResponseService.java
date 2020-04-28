@@ -1,9 +1,11 @@
 package life.heartcare.formprocessor.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +97,20 @@ public class FormResponseService {
 	@Transactional
 	public CheckResponseDTO checkResponse(String email, Integer retryAttempt, Integer retryTimeout) {
 		FormResponse fp = formResponseRepository.findTop1ByEmailOrderByIdFormResponseDesc(email);
+		Date lastMinute = DateUtils.addMinutes(new Date(), -1);
+		Boolean hasNewResponse = Boolean.FALSE;
 		if (fp != null) {
+			log.info("findTop1ByEmail - lastMinute[{}]", lastMinute);
+			log.info("findTop1ByEmail - formResponse.submitedAt[{}]", fp.getSubmittedAt());
+			if (fp.getSubmittedAt().after(lastMinute)) {
+				log.info("findTop1ByEmail - new response id [{}]", fp.getIdFormResponse());
+				hasNewResponse = Boolean.TRUE;
+			} else {
+				log.info("findTop1ByEmail - theres no new response for [{}], the ondest one was id[{}] result[{}] submitedAt[{}]", email, fp.getIdFormResponse(), fp.getResult(), fp.getSubmittedAt());
+			}
+		}
+		
+		if (hasNewResponse) {
 			CheckResponseDTO resp = new CheckResponseDTO();
 			resp.setIdFormResponse(fp.getIdFormResponse());
 			resp.setEmail(email);
