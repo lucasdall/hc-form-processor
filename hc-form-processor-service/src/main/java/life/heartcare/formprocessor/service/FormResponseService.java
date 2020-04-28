@@ -96,6 +96,7 @@ public class FormResponseService {
 
 	@Transactional
 	public CheckResponseDTO checkResponse(String email, Integer retryAttempt, Integer retryTimeout) {
+		log.info("begin - email[{}] retryAttempt[{}] retryTimeout[{}]");
 		FormResponse fp = formResponseRepository.findTop1ByEmailOrderByIdFormResponseDesc(email);
 		Date lastMinute = DateUtils.addMinutes(new Date(), -1);
 		Boolean hasNewResponse = Boolean.FALSE;
@@ -111,35 +112,33 @@ public class FormResponseService {
 			}
 		}
 		
+		Boolean lastAttempt = Boolean.FALSE;
+		CheckResponseDTO resp = new CheckResponseDTO();
 		if (hasNewResponse) {
-			CheckResponseDTO resp = new CheckResponseDTO();
 			resp.setIdFormResponse(fp.getIdFormResponse());
 			resp.setEmail(email);
-			resp.setIdFormResponse(fp.getIdFormResponse());
 			resp.setFound(Boolean.TRUE);
-			return resp;
 		} else {
-			CheckResponseDTO resp = new CheckResponseDTO();
 			resp.setEmail(email);
 			resp.setFound(Boolean.FALSE);
-			Boolean lastAttempt = Boolean.FALSE;
 			if (retryAttempt != null) {
 				resp.setRetryAttempt(--retryAttempt);
 				if (retryAttempt <= 0) {
 					lastAttempt = true;
 				}
 			}
-			if (retryTimeout != null) {
-				resp.setRetryTimeout(retryTimeout);
-			}
-			if (!lastAttempt) {
-				resp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, resp.getRetryAttempt(), resp.getRetryTimeout()));
-			} else {
-				resp.setFinished(Boolean.TRUE);
-				resp.setLink("/api/formprocessor/result/notfound");
-			}
-			return resp;
 		}
+		if (retryTimeout != null) {
+			resp.setRetryTimeout(retryTimeout);
+		}
+		if (lastAttempt) {
+			resp.setLink("/api/formprocessor/result/notfound");
+			resp.setFinished(Boolean.TRUE);
+		} else {
+			resp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, resp.getRetryAttempt(), resp.getRetryTimeout()));
+		}
+		log.info("begin - email[{}] retryAttempt[{}] retryTimeout[{}]");			
+		return resp;
 	}
 	
 	@SuppressWarnings("unchecked")
