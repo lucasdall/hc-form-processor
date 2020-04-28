@@ -101,7 +101,9 @@ public class FormResponseService {
 		LocalDateTime lastMinute = life.heartcare.formprocessor.dto.utils.DateUtils.convertToLocalDateTimeViaInstant(DateUtils.addMinutes(new Date(), -1));
 		Boolean hasNewResponse = Boolean.FALSE;
 		if (fp != null) {
-			LocalDateTime submitedAt = life.heartcare.formprocessor.dto.utils.DateUtils.convertToLocalDateTimeViaInstant(fp.getSubmittedAt());
+			// FIXME LUCAS - MUST FIX THAT
+			Date dtSubmitedAt = DateUtils.addHours(fp.getSubmittedAt(), -3);
+			LocalDateTime submitedAt = life.heartcare.formprocessor.dto.utils.DateUtils.convertToLocalDateTimeViaInstant(dtSubmitedAt);
 			log.info("findTop1ByEmail - lastMinute[{}]", lastMinute);
 			log.info("findTop1ByEmail - formResponse.submitedAt[{}]", submitedAt);
 			if (submitedAt.isAfter(lastMinute)) {
