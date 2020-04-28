@@ -1,7 +1,6 @@
 package life.heartcare.formprocessor.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Builder;
@@ -20,6 +19,6 @@ public class RecomendationDTO implements Serializable {
 	private String title;
 	
 	@Singular("recommendation")
-	private List<String> recommendations = new ArrayList<>(0);
+	private List<String> recommendations;
 	
 }

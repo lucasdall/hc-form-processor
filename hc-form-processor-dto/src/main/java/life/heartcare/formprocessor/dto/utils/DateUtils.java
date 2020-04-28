@@ -23,5 +23,6 @@ public class DateUtils {
 	    return java.util.Date
 	      .from(dateToConvert.atZone(ZoneId.systemDefault())
 	      .toInstant());
-	}	
+	}
+
 }

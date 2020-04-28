@@ -1,6 +1,5 @@
 package life.heartcare.formprocessor.service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -98,19 +97,17 @@ public class FormResponseService {
 	@Transactional
 	public CheckResponseDTO checkResponse(String email, Integer retryAttempt, Integer retryTimeout) {
 		FormResponse fp = formResponseRepository.findTop1ByEmailOrderByIdFormResponseDesc(email);
-		LocalDateTime lastMinute = life.heartcare.formprocessor.dto.utils.DateUtils.convertToLocalDateTimeViaInstant(DateUtils.addMinutes(new Date(), -1));
+		Date lastMinute = DateUtils.addMinutes(new Date(), -1);
 		Boolean hasNewResponse = Boolean.FALSE;
 		if (fp != null) {
-			// FIXME LUCAS - MUST FIX THAT
-			Date dtSubmitedAt = DateUtils.addHours(fp.getSubmittedAt(), -3);
-			LocalDateTime submitedAt = life.heartcare.formprocessor.dto.utils.DateUtils.convertToLocalDateTimeViaInstant(dtSubmitedAt);
-			log.info("findTop1ByEmail - lastMinute[{}]", lastMinute);
-			log.info("findTop1ByEmail - formResponse.submitedAt[{}]", submitedAt);
-			if (submitedAt.isAfter(lastMinute)) {
-				log.info("findTop1ByEmail - new response id [{}]", fp.getIdFormResponse());
+			Date savedAt = fp.getSavedAt();
+			log.info("lastMinute[{}]", lastMinute);
+			log.info("formResponse.submitedAt[{}]", savedAt);
+			if (fp.getSavedAt().after(lastMinute)) {
+				log.info("new response id [{}]", fp.getIdFormResponse());
 				hasNewResponse = Boolean.TRUE;
 			} else {
-				log.info("findTop1ByEmail - theres no new response for [{}], the ondest one was id[{}] result[{}] submitedAt[{}]", email, fp.getIdFormResponse(), fp.getResult(), submitedAt);
+				log.info("theres no new response for [{}], the ondest one was id[{}] result[{}] submitedAt[{}]", email, fp.getIdFormResponse(), fp.getResult(), savedAt);
 			}
 		}
 		
@@ -157,10 +154,11 @@ public class FormResponseService {
 			entity.setEventId((String) payloadMap.get("event_id"));
 			entity.setEventType((String) payloadMap.get("event_type"));
 			entity.setPayload(payload);
+			entity.setSavedAt(new Date());
 			Map<String, Object> formResponse = (Map<String, Object>) payloadMap.get("form_response");
 			if (formResponse != null) {
 				if (formResponse.containsKey("submitted_at")) {
-					entity.setSubmittedAt(DateFormatUtils.ISO_8601_EXTENDED_DATETIME_FORMAT.parse((String) formResponse.get("submitted_at")));					
+					entity.setSubmittedAt(DateFormatUtils.ISO_8601_EXTENDED_DATETIME_TIME_ZONE_FORMAT.parse((String) formResponse.get("submitted_at")));					
 				}
 				entity.setFormId((String) formResponse.get("form_id"));
 				

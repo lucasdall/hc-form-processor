@@ -1,5 +1,11 @@
 package life.heartcare.formprocessor.service.cfg;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +21,8 @@ public class JacksonCfg {
 		ObjectMapper om = new ObjectMapper();
 		om.setSerializationInclusion(Include.NON_NULL);
 		om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		om.setTimeZone(TimeZone.getDefault());
+		om.setDateFormat(new SimpleDateFormat(DateFormatUtils.ISO_8601_EXTENDED_DATETIME_TIME_ZONE_FORMAT.getPattern()));
 		return om;
 	}
 

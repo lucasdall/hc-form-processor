@@ -1,7 +1,6 @@
 package life.heartcare.formprocessor.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Builder;
@@ -22,11 +21,11 @@ public class DetailInfoDTO implements Serializable {
 	private String disclaimer;
 	
 	@Singular("description")
-	private List<String> descriptions = new ArrayList<>(0);
+	private List<String> descriptions;
 	
 	@Singular("recommendation")
-	private List<RecomendationDTO> recommendations = new ArrayList<>(0);
+	private List<RecomendationDTO> recommendations;
 	
-	private Boolean showSymptoms = Boolean.FALSE;
+	private Boolean showSymptoms;
 	
 }

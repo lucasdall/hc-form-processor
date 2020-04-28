@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
 
@@ -21,8 +19,9 @@ public class FormResponseResultDTO {
 
 	private String email;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
 	private Date submittedAt;
+
+	private Date savedAt;
 
 	private String payload;
 

@@ -1,8 +1,7 @@
 package life.heartcare.formprocessor.dto;
 
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
@@ -17,8 +16,9 @@ public class FormResponseResumedDTO {
 
 	private Long idFormResponse;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
 	private LocalDateTime submittedAt;
+
+	private Date savedAt;
 
 	private Results result;
 

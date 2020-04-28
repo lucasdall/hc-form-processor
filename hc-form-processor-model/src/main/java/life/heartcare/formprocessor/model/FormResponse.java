@@ -50,6 +50,10 @@ public class FormResponse {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date submittedAt;
 
+	@Column(name = "saved_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date savedAt;
+
 	@Lob
 	private String payload;
 
