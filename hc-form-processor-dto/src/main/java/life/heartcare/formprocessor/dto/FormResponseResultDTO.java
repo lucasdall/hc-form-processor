@@ -61,7 +61,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Atenção às novas orientações e à evolução de seu caso")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -88,7 +88,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Atenção às novas orientações e à evolução de seu caso")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -113,7 +113,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Atenção às novas orientações e à evolução de seu caso")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -140,7 +140,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Atenção às novas orientações e à evolução de seu caso")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -167,7 +167,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Atenção às novas orientações e à evolução de seu caso")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -196,7 +196,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Atenção às novas orientações e à evolução de seu caso")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -222,7 +222,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Acompanhe também as novas orientações sobre a pandemia")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -254,7 +254,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Atenção às novas orientações e à evolução de seu caso")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -283,7 +283,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Atenção às novas orientações e à evolução de seu caso")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
@@ -311,7 +311,7 @@ public class FormResponseResultDTO {
 						.build())
 				.recommendation(RecomendationDTO.builder()
 						.title("Acompanhe também as novas orientações sobre a pandemia")
-						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='www.covid.heartcare.life'>www.covid.heartcare.life</a>")
+						.recommendation("Fique atualizado sobre a evolução e o controle da pandemia através dos sites das agências de saúde e dos nossos conteúdos em <a href='https://covid.heartcare.life'>covid.heartcare.life</a>")
 						.build()
 				).build();
 			break;
