@@ -32,7 +32,7 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
 			.headers().frameOptions().sameOrigin()
 			.and()
 			.authorizeRequests()
-			.antMatchers("/*", "/api/formprocessor/processing*", "/api/formprocessor/webhook", "/result/*", "/api/formprocessor/findlatest/byemail/*").permitAll()
+			.antMatchers("/*", "/api/formprocessor/processing*", "/api/formprocessor/webhook*", "/result/*", "/api/formprocessor/findlatest/byemail/*").permitAll()
 			.anyRequest().authenticated()
 			.and().httpBasic();
 	}
