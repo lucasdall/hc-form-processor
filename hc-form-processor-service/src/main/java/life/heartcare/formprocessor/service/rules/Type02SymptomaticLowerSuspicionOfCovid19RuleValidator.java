@@ -17,6 +17,7 @@ public class Type02SymptomaticLowerSuspicionOfCovid19RuleValidator implements Ru
 		AnswerDTO hcSymptomsCritical = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_CRITICAL);
 		AnswerDTO hcSymptomsOthers = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_OTHERS);
 
+		// RULE 01
 		if (hcTest != null) {
 			Boolean hcTestCond = hcTest.getChoice()
 					.testAny("fiz o teste e tenho o resultado de covid-19 negativo",
@@ -41,6 +42,28 @@ public class Type02SymptomaticLowerSuspicionOfCovid19RuleValidator implements Ru
 				}
 			}
 		}
+		
+		// RULE 02
+		if (hcTest != null) {
+			Boolean hcTestCond = hcTest.getChoice()
+					.testAny("fiz o teste e tenho o resultado de covid-19 negativo",
+						  "fiz o teste, mas ainda estou aguardando o resultado",
+						  "quero fazer o teste",
+						  "não quero fazer o teste");
+			if (hcTestCond && hcSymptomsType != null) {
+				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().getLabels().size() >= 1;
+				if (hcSymptomsTypeCond && hcSymptomsCritical != null) {
+					Boolean hcSymptomsCriticalCond = Boolean.FALSE.equals(hcSymptomsCritical.getBooleanVal());
+					if (hcSymptomsCriticalCond) {
+						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar");
+						if (hcSymptomsOthersCond) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		
 		return false;
 	}
 	
