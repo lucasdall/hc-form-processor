@@ -50,15 +50,12 @@ public class Type02SymptomaticLowerSuspicionOfCovid19RuleValidator implements Ru
 						  "fiz o teste, mas ainda estou aguardando o resultado",
 						  "quero fazer o teste",
 						  "não quero fazer o teste");
-			if (hcTestCond && hcSymptomsType != null) {
-				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().getLabels().size() >= 1;
-				if (hcSymptomsTypeCond && hcSymptomsCritical != null) {
-					Boolean hcSymptomsCriticalCond = Boolean.FALSE.equals(hcSymptomsCritical.getBooleanVal());
-					if (hcSymptomsCriticalCond) {
-						Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar");
-						if (hcSymptomsOthersCond) {
-							return true;
-						}
+			if (hcTestCond && hcSymptomsCritical != null) {
+				Boolean hcSymptomsCriticalCond = Boolean.FALSE.equals(hcSymptomsCritical.getBooleanVal());
+				if (hcSymptomsCriticalCond) {
+					Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar");
+					if (hcSymptomsOthersCond) {
+						return true;
 					}
 				}
 			}
@@ -71,6 +68,4 @@ public class Type02SymptomaticLowerSuspicionOfCovid19RuleValidator implements Ru
 	public Results getResult() {
 		return Results.TYPE_02_SymptomaticLowerSuspicionOfCovid19;
 	}
-
-
 }

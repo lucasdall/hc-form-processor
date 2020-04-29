@@ -31,7 +31,7 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
 		http
 			.httpBasic()
 			.and().authorizeRequests()
-			.antMatchers("/*", "/api/formprocessor/processing*", "/api/formprocessor/webhook", "/api/formprocessor/result/*", "/api/formprocessor/findlatest/byemail/**").permitAll()
+			.antMatchers("/*", "/www/img/**", "/api/formprocessor/processing*", "/api/formprocessor/webhook", "/api/formprocessor/result/*", "/api/formprocessor/findlatest/byemail/**").permitAll()
 			.anyRequest().authenticated()
 			.and().csrf().disable()
 			.headers().frameOptions().sameOrigin();
