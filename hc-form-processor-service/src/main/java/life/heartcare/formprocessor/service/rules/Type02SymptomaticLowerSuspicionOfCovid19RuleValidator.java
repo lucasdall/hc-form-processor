@@ -50,13 +50,10 @@ public class Type02SymptomaticLowerSuspicionOfCovid19RuleValidator implements Ru
 						  "fiz o teste, mas ainda estou aguardando o resultado",
 						  "quero fazer o teste",
 						  "não quero fazer o teste");
-			if (hcTestCond && hcSymptomsCritical != null) {
-				Boolean hcSymptomsCriticalCond = Boolean.FALSE.equals(hcSymptomsCritical.getBooleanVal());
-				if (hcSymptomsCriticalCond) {
-					Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar");
-					if (hcSymptomsOthersCond) {
-						return true;
-					}
+			if (hcTestCond) {
+				Boolean hcSymptomsOthersCond = hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar");
+				if (hcSymptomsOthersCond) {
+					return true;
 				}
 			}
 		}
