@@ -29,12 +29,11 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests()
+			.httpBasic()
+			.and().authorizeRequests()
 			.antMatchers("/*", "/api/formprocessor/processing*", "/api/formprocessor/webhook", "/api/formprocessor/result/*", "/api/formprocessor/findlatest/byemail/**").permitAll()
 			.anyRequest().authenticated()
-			.and().httpBasic()
 			.and().csrf().disable()
 			.headers().frameOptions().sameOrigin();
-
 	}
 }
