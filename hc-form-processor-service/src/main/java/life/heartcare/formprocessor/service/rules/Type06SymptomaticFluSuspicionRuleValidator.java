@@ -52,7 +52,7 @@ public class Type06SymptomaticFluSuspicionRuleValidator implements RuleValidator
 				if (hcSymptomsTypeCond && hcSymptomsOthers != null) {
 					Boolean hcSymptomsOthersCond = 
 							hcSymptomsOthers.getChoices().getLabels().isEmpty() == false
-							&& hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar") == false;
+							&& hcSymptomsOthers.getChoices().testAny("falta de olfato", "falta de paladar", "nenhum destes") == false;
 					if (hcSymptomsOthersCond) {
 						return true;
 					}
