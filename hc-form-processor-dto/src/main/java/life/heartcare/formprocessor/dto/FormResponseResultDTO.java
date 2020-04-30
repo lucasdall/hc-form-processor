@@ -176,7 +176,7 @@ public class FormResponseResultDTO {
 				.linkAlertImg("https://covid.heartcare.life/assets/mail/assets/images/results-alarm-grey.png")
 				.disclaimer("seus sintomas e atividades e sintomas nos relatam PROBABILIDADE BAIXÍSSIMA de estar com COVID-19.")
 				.description("Embora você tenha reportado algum sintoma que poderia parecer do novo coronavírus, suas respostas não foram suficientes para classificar o seu caso como uma possível contaminação pelo COVID-19.")
-				.description("Seu caso tem MAIOR PROBABILIDADE de se tratar de outras gripes ou viroses, de qualquer modo fique atento a qualquer evolução dos sintomas abaixo relatados por você ou para o surgimento repentino de algum outro sintoma.")
+				.description("Seu caso tem MAIOR PROBABILIDADE de se tratar de algum mal estar leve, gripe ou viroses, de qualquer modo fique atento a qualquer evolução dos sintomas abaixo relatados por você ou para o surgimento repentino de algum outro sintoma.")
 				.recommendation(RecomendationDTO.builder()
 						.title("Suporte médico")
 						.recommendation("No seu estado atual, o quadro de sintomas reportado por você não demonstra necessidade de suporte médico.")
