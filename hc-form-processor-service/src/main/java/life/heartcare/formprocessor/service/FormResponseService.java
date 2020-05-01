@@ -46,6 +46,9 @@ public class FormResponseService {
 	@Autowired
 	private EmailService emailService;
 	
+	@Autowired
+	private MailchimpService mailchimpService;
+	
 	@Transactional
 	public List<FormResponseDTO> findByEmailOrderByIdFormResponseDesc(String email) {
 		return modelMapper.map(formResponseRepository.findByEmailOrderByIdFormResponseDesc(email), new TypeToken<List<FormResponseDTO>>() {}.getType());
@@ -149,6 +152,8 @@ public class FormResponseService {
 	public FormResponseDTO webhookSave(String payload, String contentType) throws Exception {
 		log.info("begin - webhookSave - contentType[{}]", contentType);
 		String email = null;
+		String name = null;
+		String phone = null;
 		try {
 			Map<String, Object> payloadMap = objectMapper.readValue(payload, new TypeReference<Map<String, Object>>() {});
 			FormResponse entity = new FormResponse();
@@ -173,7 +178,21 @@ public class FormResponseService {
 						log.info("email found in payload [{}]", email);
 						entity.setEmail(email);
 					}
-					
+
+					AnswerDTO hcName = answers.getById(QuestionsLabelsId.HC_NAME);
+					if (hcName != null) {
+						name = hcName.getText();
+						log.info("name found in payload [{}]", name);
+						entity.setName(name);
+					}
+
+					AnswerDTO hcPhone = answers.getById(QuestionsLabelsId.HC_PHONE);
+					if (hcPhone != null) {
+						phone = hcPhone.getPhoneNumber();
+						log.info("phone found in payload [{}]", phone);
+						entity.setPhone(phone);
+					}
+
 					Results result = rulesService.execute(answers);
 					entity.setResult(result);
 				}
@@ -188,9 +207,17 @@ public class FormResponseService {
 				log.error("ERROR - webhookSave - send email failure - email[{}] idFormResponse[{}]", email, dto.getIdFormResponse());
 				log.error("ERROR - webhookSave - send email failure", e);
 			}
-			
+
+			try {
+				if (mailchimpService.createMember(dto)) {
+					log.info("mailchimp subscription [OK]");
+				} else {
+					log.info("mailchimp subscription [FAIL]");
+				}
+			} catch (Exception e) {
+				log.error("ERROR - mailchimp - member subscription", e);
+			}
 			return dto;
-			
 		} catch (Exception e) {
 			log.error("ERROR - webhookSave - email[{}] contentType[{}]", email, contentType);
 			log.error("ERROR - webhookSave", e);
