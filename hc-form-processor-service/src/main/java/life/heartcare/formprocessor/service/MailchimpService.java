@@ -2,6 +2,7 @@ package life.heartcare.formprocessor.service;
 
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,7 +18,6 @@ import life.heartcare.formprocessor.dto.mailchimp.CreateMemberRequestDTO;
 import life.heartcare.formprocessor.dto.mailchimp.enums.Language;
 import life.heartcare.formprocessor.dto.mailchimp.enums.MergeField;
 import life.heartcare.formprocessor.dto.mailchimp.enums.Status;
-import life.heartcare.formprocessor.dto.utils.Md5Utils;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -48,7 +48,7 @@ public class MailchimpService {
 					.mergeField(MergeField.RESULT, form.getResult().name())
 					.build();
 			
-			String emailMd5 = Md5Utils.md5(form.getEmail().toLowerCase());
+			String emailMd5 = DigestUtils.md5Hex(form.getEmail().toLowerCase()).toLowerCase();
 			
 			HttpHeaders headers = new HttpHeaders();
 			headers.setBasicAuth(MAILCHIMP_API_USER, MAILCHIMP_API_PWD);		
