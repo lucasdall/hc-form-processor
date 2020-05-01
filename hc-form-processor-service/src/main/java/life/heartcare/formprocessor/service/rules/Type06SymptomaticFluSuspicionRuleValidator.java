@@ -59,7 +59,30 @@ public class Type06SymptomaticFluSuspicionRuleValidator implements RuleValidator
 				}
 			}
 		}
-		
+
+		// RULE 03
+		if (hcTest != null) {
+			Boolean hcTestCond = hcTest.getChoice()
+					.testAny("fiz o teste e tenho o resultado de covid-19 negativo",
+						  "fiz o teste, mas ainda estou aguardando o resultado",
+						  "quero fazer o teste",
+						  "não quero fazer o teste");
+			if (hcSymptomsType != null && hcTestCond) {
+				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().testAny("nenhum destes", "falta de ar") == false && hcSymptomsType.getChoices().getLabels().size() >= 1;
+				if (hcSymptomsTypeCond && hcSymptomsCritical != null) {
+					Boolean hcSymptomsCriticalCond = Boolean.TRUE.equals(hcSymptomsCritical.getBooleanVal());
+					if (hcSymptomsCriticalCond && hcSymptomsOthers != null) {
+						Boolean hcSymptomsOthersCond = 
+								hcSymptomsOthers.getChoices().getLabels().isEmpty() == false
+								&& hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar") == false;
+						if (hcSymptomsOthersCond) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
 		return false;
 	}
 	

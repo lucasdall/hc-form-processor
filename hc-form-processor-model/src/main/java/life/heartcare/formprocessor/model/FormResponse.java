@@ -35,6 +35,10 @@ public class FormResponse {
 
 	private String email;
 
+	private String name;
+	
+	private String phone;
+
 	@Column(name = "event_id")
 	private String eventId;
 

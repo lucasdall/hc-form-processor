@@ -17,6 +17,10 @@ public class FormResponseDTO {
 
 	private String email;
 
+	private String name;
+	
+	private String phone;
+	
 	private String eventId;
 
 	private String eventType;

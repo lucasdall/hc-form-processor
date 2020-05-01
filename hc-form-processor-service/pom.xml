@@ -10,6 +10,10 @@
 	<artifactId>hc-form-processor-service</artifactId>
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>life.heartcare</groupId>
 			<artifactId>hc-form-processor-persistence</artifactId>
 			<version>1.0.0</version>
