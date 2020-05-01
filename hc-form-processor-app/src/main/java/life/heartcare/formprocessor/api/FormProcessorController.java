@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import life.heartcare.formprocessor.dto.CheckResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseResultDTO;
 import life.heartcare.formprocessor.dto.enums.Results;
+import life.heartcare.formprocessor.persistence.FormResponseRepository;
 import life.heartcare.formprocessor.service.FormResponseService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +31,9 @@ public class FormProcessorController {
 
 	@Autowired
 	private FormResponseService formResponseService;
+	
+	@Autowired
+	private FormResponseRepository repo;
 
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<FormResponseDTO> findById(@PathVariable("id") Long id) throws Exception {
@@ -126,6 +131,17 @@ public class FormProcessorController {
 		dtoResp.loadDetail();
 		dtoResp.setChannel("web");
 		return new ModelAndView("result", "dto", dtoResp);
+	}
+
+	
+	@GetMapping(path = "/updateresult")
+	@Modifying
+	public ResponseEntity<String> updateResult() throws Exception {
+		repo.findAll().forEach(fr -> {
+			fr.setResult1(fr.getResult());
+			repo.save(fr);
+		});
+		return ResponseEntity.ok("ok");
 	}
 
 }
