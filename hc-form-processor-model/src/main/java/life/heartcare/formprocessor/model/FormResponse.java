@@ -58,10 +58,7 @@ public class FormResponse {
 	@Lob
 	private String payload;
 
-	@Enumerated
-	private Results result;
-
 	@Enumerated(EnumType.STRING)
-	private Results result1;
+	private Results result;
 
 }
