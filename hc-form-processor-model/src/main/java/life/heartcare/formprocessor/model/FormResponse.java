@@ -38,6 +38,8 @@ public class FormResponse {
 	private String name;
 	
 	private String phone;
+	
+	private String country;
 
 	@Column(name = "event_id")
 	private String eventId;

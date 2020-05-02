@@ -3,9 +3,11 @@ package life.heartcare.formprocessor.api;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import life.heartcare.formprocessor.dto.CheckResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseResultDTO;
 import life.heartcare.formprocessor.dto.enums.Results;
+import life.heartcare.formprocessor.persistence.FormResponseRepository;
 import life.heartcare.formprocessor.service.FormResponseService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +32,9 @@ public class FormProcessorController {
 
 	@Autowired
 	private FormResponseService formResponseService;
+	
+	@Autowired
+	private FormResponseRepository repo;
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<FormResponseDTO> findById(@PathVariable("id") Long id) throws Exception {
@@ -116,6 +122,21 @@ public class FormProcessorController {
 			dtoResp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, dto.getRetryAttempt(), dto.getRetryTimeout()));
 			return new ModelAndView("processing", "dto", dtoResp);
 		}
+	}
+
+	@GetMapping(path = "/mailchimp")
+	@Transactional
+	public String mailchimp() throws Exception {
+		repo.findAll().forEach(f -> {
+			try {
+				if (StringUtils.isEmpty(f.getCountry())) {
+					formResponseService.mailchimp(f);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		return "ok";
 	}
 
 	@GetMapping(path = "/result/notfound")

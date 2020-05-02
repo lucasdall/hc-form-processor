@@ -20,6 +20,8 @@ public class FormResponseDTO {
 	private String name;
 	
 	private String phone;
+
+	private String country;
 	
 	private String eventId;
 

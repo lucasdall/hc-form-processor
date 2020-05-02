@@ -46,6 +46,7 @@ public class MailchimpService {
 					.mergeField(MergeField.FNAME, form.getName())
 					.mergeField(MergeField.PHONE, form.getPhone())
 					.mergeField(MergeField.RESULT, form.getResult().name())
+					.mergeField(MergeField.COUNTRY, form.getCountry())
 					.build();
 			
 			String emailMd5 = DigestUtils.md5Hex(form.getEmail().toLowerCase()).toLowerCase();

@@ -154,6 +154,7 @@ public class FormResponseService {
 		String email = null;
 		String name = null;
 		String phone = null;
+		String country = null;
 		try {
 			Map<String, Object> payloadMap = objectMapper.readValue(payload, new TypeReference<Map<String, Object>>() {});
 			FormResponse entity = new FormResponse();
@@ -191,6 +192,13 @@ public class FormResponseService {
 						phone = hcPhone.getPhoneNumber();
 						log.info("phone found in payload [{}]", phone);
 						entity.setPhone(phone);
+					}
+
+					AnswerDTO hcCountry = answers.getById(QuestionsLabelsId.HC_COUNTRY);
+					if (hcCountry != null) {
+						country = hcCountry.getText();
+						log.info("country found in payload [{}]", country);
+						entity.setCountry(country);
 					}
 
 					Results result = rulesService.execute(answers);
@@ -258,4 +266,78 @@ public class FormResponseService {
 		return resultDTO;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public FormResponseDTO mailchimp(FormResponse entity) throws Exception {
+		log.info("begin - mailchimp - contentType[{}]", entity.getContentType());
+		String email = null;
+		String name = null;
+		String phone = null;
+		String country = null;
+		try {
+			if (entity.getPayload() == null) {
+				return null;
+			}
+			Map<String, Object> payloadMap = objectMapper.readValue(entity.getPayload(), new TypeReference<Map<String, Object>>() {});
+			Map<String, Object> formResponse = (Map<String, Object>) payloadMap.get("form_response");
+			if (formResponse != null) {
+				List<Map<String, Object>> answersList = (List<Map<String, Object>>) formResponse.get("answers");
+				AnswerListDTO answers = new AnswerListDTO(objectMapper.convertValue(answersList, new TypeReference<List<AnswerDTO>>() {}));
+				if (answers != null) {
+					AnswerDTO hcEmail = answers.getById(QuestionsLabelsId.HC_EMAIL);
+					if (hcEmail != null) {
+						email = hcEmail.getEmail(); 
+						log.info("email found in payload [{}]", email);
+						entity.setEmail(email);
+					}
+
+					AnswerDTO hcName = answers.getById(QuestionsLabelsId.HC_NAME);
+					if (hcName != null) {
+						name = hcName.getText();
+						log.info("name found in payload [{}]", name);
+						entity.setName(name);
+					}
+
+					AnswerDTO hcPhone = answers.getById(QuestionsLabelsId.HC_PHONE);
+					if (hcPhone != null) {
+						phone = hcPhone.getPhoneNumber();
+						log.info("phone found in payload [{}]", phone);
+						entity.setPhone(phone);
+					}
+
+					AnswerDTO hcCountry = answers.getById(QuestionsLabelsId.HC_COUNTRY);
+					if (hcCountry != null) {
+						country = hcCountry.getChoice().getLabel();
+						log.info("country found in payload [{}]", country);
+						entity.setCountry(country);
+					}
+
+					Results result = rulesService.execute(answers);
+					entity.setResult(result);
+				}
+			}
+			
+			formResponseRepository.save(entity);
+			FormResponseDTO dto = modelMapper.map(entity, FormResponseDTO.class);
+			
+			try {
+				if (mailchimpService.createMember(dto)) {
+					log.info("mailchimp subscription [OK]");
+				} else {
+					log.info("mailchimp subscription [FAIL]");
+				}
+			} catch (Exception e) {
+				log.error("ERROR - mailchimp - member subscription", e);
+			}
+			return dto;
+		} catch (Exception e) {
+			log.error("ERROR - mailchimp - email[{}] contentType[{}]", email, entity.getContentType());
+			log.error("ERROR - mailchimp", e);
+			throw e;
+		} finally {
+			log.info("end - mailchimp");
+		}
+	}
+	
+	
 }
