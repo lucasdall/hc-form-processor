@@ -37,5 +37,5 @@ public class FormResponseDTO {
 
 	private Results result;
 
-	
+	private String mailchimpId;
 }

@@ -36,7 +36,7 @@ public class MailchimpService {
 	@Value("${mailchimp.api.pwd}")
 	private String MAILCHIMP_API_PWD;
 
-	public Boolean createMember(FormResponseDTO form) {
+	public String createMember(FormResponseDTO form) {
 		try {
 			log.info("begin - createMember");
 			CreateMemberRequestDTO body = CreateMemberRequestDTO.builder()
@@ -58,14 +58,15 @@ public class MailchimpService {
 			ResponseEntity<Map<String, Object>> response = restTemplate.exchange(URL_LIST_MEMBERS_CREATE, HttpMethod.PUT,  entity, new ParameterizedTypeReference<Map<String,Object>>() {}, emailMd5);
 			if (response.getStatusCode().is2xxSuccessful()) {
 				Map<String, Object> respBody = response.getBody();
-				log.info("mailchimp - created - id [{}] email_address [{}]", respBody.get("id"), respBody.get("email_address"));
-				return true;
+				String mailchimpId = (String) respBody.get("id");
+				log.info("mailchimp - created - id [{}] email_address [{}]", mailchimpId, respBody.get("email_address"));
+				return mailchimpId;
 			} else {
-				return false;
+				return null;
 			}
 		} catch (Exception e) {
 			log.error("Error createMember", e);
-			return false;
+			return null;
 		} finally {
 			log.info("end - createMember");
 		}

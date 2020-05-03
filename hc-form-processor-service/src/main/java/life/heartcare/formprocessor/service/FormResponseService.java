@@ -217,7 +217,8 @@ public class FormResponseService {
 			}
 
 			try {
-				if (mailchimpService.createMember(dto)) {
+				String mailchimpId = mailchimpService.createMember(dto);
+				if (mailchimpId != null) {
 					log.info("mailchimp subscription [OK]");
 				} else {
 					log.info("mailchimp subscription [FAIL]");
@@ -321,7 +322,8 @@ public class FormResponseService {
 			FormResponseDTO dto = modelMapper.map(entity, FormResponseDTO.class);
 			
 			try {
-				if (mailchimpService.createMember(dto)) {
+				String mailchimpId = mailchimpService.createMember(dto);
+				if (mailchimpId != null) {
 					log.info("mailchimp subscription [OK]");
 				} else {
 					log.info("mailchimp subscription [FAIL]");

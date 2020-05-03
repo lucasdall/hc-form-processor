@@ -129,7 +129,7 @@ public class FormProcessorController {
 	public String mailchimp() throws Exception {
 		repo.findAll().forEach(f -> {
 			try {
-				if (StringUtils.isEmpty(f.getCountry())) {
+				if (StringUtils.isEmpty(f.getMailchimpId())) {
 					formResponseService.mailchimp(f);
 				}
 			} catch (Exception e) {

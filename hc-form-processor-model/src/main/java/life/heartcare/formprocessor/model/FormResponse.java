@@ -67,4 +67,8 @@ public class FormResponse {
 	@Enumerated(EnumType.STRING)
 	private Results result;
 
+	@Column(name = "mailchimp_id")
+	private String mailchimpId;
+
+	
 }
