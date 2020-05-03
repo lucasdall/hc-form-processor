@@ -196,7 +196,7 @@ public class FormResponseService {
 
 					AnswerDTO hcCountry = answers.getById(QuestionsLabelsId.HC_COUNTRY);
 					if (hcCountry != null) {
-						country = hcCountry.getText();
+						country = hcCountry.getChoice().getLabel();
 						log.info("country found in payload [{}]", country);
 						entity.setCountry(country);
 					}
