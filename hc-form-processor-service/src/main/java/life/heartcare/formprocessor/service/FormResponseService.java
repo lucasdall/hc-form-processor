@@ -220,6 +220,8 @@ public class FormResponseService {
 				String mailchimpId = mailchimpService.createMember(dto);
 				if (mailchimpId != null) {
 					log.info("mailchimp subscription [OK]");
+					entity.setMailchimpId(mailchimpId);
+					formResponseRepository.save(entity);
 				} else {
 					log.info("mailchimp subscription [FAIL]");
 				}
