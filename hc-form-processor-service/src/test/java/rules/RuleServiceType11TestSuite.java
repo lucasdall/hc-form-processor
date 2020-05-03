@@ -39,6 +39,11 @@ public class RuleServiceType11TestSuite {
 		assertTrue(Results.TYPE_11_Unknown.equals(runType("/rules/type_11_id02.txt")));
 	}
 
+	@Test
+	public void type01_11_id305() throws Exception {
+		assertTrue(Results.TYPE_11_Unknown.equals(runType("/rules/type_11_id305.txt")));
+	}
+
 	private Results runType(String file) throws Exception {
 		String json  = IOUtils.toString(RuleServiceType11TestSuite.class.getResourceAsStream(file), StandardCharsets.UTF_8);
 		AnswerListDTO a = loadPayload(json);
