@@ -78,6 +78,7 @@ public class AdminService {
 							QuestionsLabelsId.HC_SYMPTOMS_BREATHE.toString(), 
 							QuestionsLabelsId.HC_SYMPTOMS_CRITICAL.toString(), 
 							QuestionsLabelsId.HC_COVID_RECOVERED.toString(), 
+							QuestionsLabelsId.HC_CONTACT_INFECTED.toString(),
 							QuestionsLabelsId.HC_PROTECTED_PARTNERS.toString());
 					List<AnswerDTO> l = answers.list();
 					l.stream().filter(aa -> refs.contains(aa.getField().getRef())).forEach(a -> a.setClassStyle("has-background-warning"));
