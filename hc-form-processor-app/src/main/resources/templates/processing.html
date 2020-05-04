@@ -92,6 +92,9 @@
 		</div>
 		</div>
 	</main>
+	<form method="POST" action="/result" id="resultForm">
+		<input name="email" type="hidden" id="email">
+	</form>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -122,17 +125,46 @@
 	 			  	setTimeout(checkResponse, data.retryTimeout, data.link)
  			  	}
  			  } else if (data && data.found) {
- 			  	location.href = data.link
+ 				const opts = {
+		   			method: 'PUT',
+		   			headers: {
+		   			    'Content-Type': 'application/json',
+		   			},
+	  	   		    body: JSON.stringify({'idFormResponse': data.idFormResponse})
+	   		   };
+		   		fetch(data.link, opts)
+		   			.then((response) => {
+				       if(!response.ok){
+				           throw new Error('failed!');
+				       }
+				       return response.text();
+				   }).then((html) => {
+   				      document.body.innerHTML = html     
+				   });
  			  }
 		   }).catch((error) => {
 			  console.log(error);
 		   });
 	}
-
 	$(document).ready(() => {
-		setTimeout(checkResponse, 5000)
+		if (unescape(location.pathname).indexOf('@') != -1){
+			let email = location.pathname.split('/')[2];
+			$("#email").val(email)
+			$("#resultForm").submit();
+		} else {
+			setTimeout(checkResponse, 5000)
+		}
 	})
+</script>
 
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script src="/www/js/hc.js"></script>
+	
+<script>
+// disable refresh
+preventRefresh();
 </script>
 
 

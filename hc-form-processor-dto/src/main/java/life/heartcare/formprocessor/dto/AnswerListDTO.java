@@ -1,9 +1,12 @@
 package life.heartcare.formprocessor.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import life.heartcare.formprocessor.dto.enums.QuestionsLabelsId;
 import lombok.Data;
@@ -27,7 +30,7 @@ public class AnswerListDTO implements Serializable {
 	}
 
 	public List<AnswerDTO> list() {
-		return (List<AnswerDTO>) answersMap.values();
+		return answersMap.values().stream().collect(Collectors.toList()); 
 	}
 	
 	public AnswerDTO getById(QuestionsLabelsId id) {

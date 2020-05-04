@@ -35,4 +35,33 @@ public class AnswerDTO implements Serializable {
 	
 	private String text;
 	
+	private String date;
+	
+	private String number;
+	
+	private String classStyle;
+
+	public String toString() {
+		switch (type) {
+		case BOOLEAN:
+			return booleanVal.toString();
+		case CHOICES:
+			return String.join("|", choices.getLabels());
+		case CHOICE:
+			return choice.getLabel();
+		case DATE:
+			return date;
+		case EMAIL:
+			return email;
+		case NUMBER:
+			return number;
+		case PHONE_NUMBER:
+			return phoneNumber;
+		case TEXT:
+			return text;
+		default:
+			return "";
+		}
+	}
+	
 }

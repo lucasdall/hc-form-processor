@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="pt-BR" style="background-color: #f4f4f4;font-family: Poppins, Helvetica, Arial, sans-serif;">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- seo -->
+  <title>Covid | Heart Care</title>
+  <meta name="author" content="Heart Care">
+  <meta name="description" content="Heart Care, o app que ajuda você a cuidar e entender melhor sua saúde, também está do seu lado no combate à pandemia da COVID-19.">
+  <meta name="keywords" content="Faça nosso teste digital de sintomas, respondendo a um protocolo em forma de questionário, e saiba qual a sua probabilidade de você estar infectado com o novo coronavírus.">
+  <meta name="google-site-verification" content="0ekEUuJYLCytAbkm1aZpKxeIF5Api_KsuHolIFo2AW0" />
+  <link rel="image_src" href="https://covid.heartcare.life/assets/images/logo/logo-heart-care.jpg" />
+  <link rel="shortcut icon" href="https://covid.heartcare.life/assets/images/logo/favicon.png" />
+
+  <!-- app banner -->
+  <meta name="apple-itunes-app" content="app-id=1317599764" />
+
+  <!-- facebook -->
+  <meta property="fb:app_id" content="256295674889487" />
+  <meta property="og:title" content="Covid | Heart Care" />
+  <meta property="og:description" content="Heart Care, o app que ajuda você a cuidar e entender melhor sua saúde, também está do seu lado no combate à pandemia da COVID-19." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://covid.heartcare.life" />
+  <meta property="og:image" content="https://covid.heartcare.life/assets/images/logo/logo-heart-care.jpg" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="/www/css/bulma.min.css">  
+
+	<style>
+		.mt {
+			margin-top: 50px;
+		}
+	
+	</style>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+
+	<script>
+	const openModal = (id, result) => {
+		$('.modal').addClass('is-active')
+		$('.modal-card-title').text('' + id + ' - Resultado [' + result +']')
+	    //$(".modal-content").css('width', '900px');
+
+		fetch('/admin/detail/' + id)
+			.then((response) => {
+			       if(!response.ok){
+			           throw new Error('failed!');
+			       }
+			       return response.text();
+			   }).then((html) => {
+				   $('.modal-card-body').html(html)
+			   });		
+	}
+
+	const closeModal = () => {
+		$('.modal').removeClass('is-active')
+	}
+
+	</script>
+
+  </head>
+
+
+
+  <body>
+  
+	<div class="container is-widescreen mt is-fullwidth">
+		<div class="notification is-link is-light">
+  			Lista das resposta do tipo <strong>${result}</strong>
+		</div>
+	
+		<div class="columns is-12">
+	
+		<table class="table is-striped is-hoverable is-fullwidth">
+		  <thead>
+		    <tr>
+		      <th>Id</th>
+		      <th>Resultado</abbr></th>      
+		      <th>Nome</th>
+		      <th>Email</th>
+		      <th>Telefone</th>
+			  <th>Pais</th>      
+		      <th>Data</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			<#list answers as f>  
+			    <tr>
+			      <td><a onclick="openModal('${f.idFormResponse!}', '${f.result!}')"><strong>${f.idFormResponse}</strong></a> </td>
+			      <td>${f.result!}</td>
+			      <td>${f.name!}</td>
+			      <td>${f.email!}</td>
+			      <td>${f.phone!}</td>
+			      <td>${f.country!}</td>
+			      <td>${f.savedAt!?string('dd/MM/yyyy HH:mm:ss')}</td>
+			    </tr>
+			</#list>    
+		  </tbody>
+		</table>
+		</div>
+		<a class="button is-link is-outlined" href="/admin/">Voltar</a>
+
+		<div class="modal">
+		  <div class="modal-background"></div>
+  			<div class="modal-content">
+			  <div class="modal-card">
+			    <header class="modal-card-head">
+			      <p class="modal-card-title"></p>
+			      <button class="delete" aria-label="close" onclick="closeModal()"></button>
+			    </header>
+			    <section class="modal-card-body">
+			    </section>
+			    <footer class="modal-card-foot">
+			      <button class="button is-medium is-danger" onclick="closeModal()">Fechar</button>
+			    </footer>
+			  </div>
+  			</div>		  
+		</div>		
+
+	</div>
+
+	
+  </body>
+  
+  
+</html>

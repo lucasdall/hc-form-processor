@@ -1,19 +1,20 @@
 package life.heartcare.formprocessor.api;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +27,6 @@ import life.heartcare.formprocessor.service.FormResponseService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/formprocessor")
 @Slf4j
 public class FormProcessorController {
 
@@ -36,7 +36,7 @@ public class FormProcessorController {
 	@Autowired
 	private FormResponseRepository repo;
 	
-	@GetMapping(path = "/{id}")
+	@GetMapping(path = "/api/formprocessor/{id}")
 	public ResponseEntity<FormResponseDTO> findById(@PathVariable("id") Long id) throws Exception {
 		log.info("begin - findById - id[{}]", id);
 		try {
@@ -50,7 +50,7 @@ public class FormProcessorController {
 		}
 	}
 
-	@GetMapping(path = "/{id}/check")
+	@GetMapping(path = "/api/formprocessor/{id}/check")
 	public ResponseEntity<FormResponseDTO> check(@PathVariable("id") Long id) throws Exception {
 		log.info("begin - check - id[{}]", id);
 		try {
@@ -64,7 +64,7 @@ public class FormProcessorController {
 		}
 	}
 
-	@GetMapping(path = {"/findlatest/byemail/{email}", "/findlatest/byemail/{email}/{retryAttempt}/{retryTimeout}"})
+	@GetMapping(path = {"/api/formprocessor/findlatest/byemail/{email}", "/api/formprocessor/findlatest/byemail/{email}/{retryAttempt}/{retryTimeout}"})
 	public ResponseEntity<CheckResponseDTO> findLatestByEmail(@PathVariable("email") String email, @PathVariable(name = "retryTimeout", required = false) Integer retryTimeout, @PathVariable(name = "retryAttempt", required = false) Integer retryAttempt) throws Exception {
 		log.info("begin - findLatestByEmail - email[{}]", email);
 		try {
@@ -79,7 +79,7 @@ public class FormProcessorController {
 		}
 	}
 	
-	@GetMapping(path = "/findall/byemail/{email}")
+	@GetMapping(path = "/api/formprocessor/findall/byemail/{email}")
 	public ResponseEntity<List<FormResponseDTO>> findAllByEmail(@PathVariable("email") String email) throws Exception {
 		log.info("begin - findAllByEmail - email[{}]", email);
 		try {
@@ -93,7 +93,7 @@ public class FormProcessorController {
 		}
 	}
 
-	@PostMapping(path = "/webhook")
+	@PostMapping(path = "/api/formprocessor/webhook")
 	public ResponseEntity<Void> webhook(@RequestBody String payload, @RequestHeader(name = HttpHeaders.CONTENT_TYPE) String contentType) throws Exception {
 		log.info("begin - webhook - contentType[{}]", contentType);
 		try {
@@ -109,22 +109,27 @@ public class FormProcessorController {
 	}
 	
 	@GetMapping(path = "/result/{email}")
-	public ModelAndView result(@PathVariable String email) throws Exception {
-		CheckResponseDTO dto = formResponseService.checkResponse(email, 10, Long.valueOf(TimeUnit.SECONDS.toMillis(5)).intValue());
-		if (dto != null && dto.getFound()) {
-			FormResponseResultDTO dtoResp = formResponseService.convertFrom(formResponseService.findById(dto.getIdFormResponse()));
-			dtoResp.setChannel("web");
-			return new ModelAndView("result", "dto", dtoResp);
-		} else {
-			FormResponseResultDTO dtoResp = new FormResponseResultDTO();
-			dtoResp.setEmail(email);
-			dtoResp.setChannel("web");
-			dtoResp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, dto.getRetryAttempt(), dto.getRetryTimeout()));
-			return new ModelAndView("processing", "dto", dtoResp);
-		}
+	public ModelAndView resultEmail(@PathVariable String email) throws Exception {
+		CheckResponseDTO dto = formResponseService.checkResponse(email);
+		return new ModelAndView("processing", "dto", dto);
 	}
 
-	@GetMapping(path = "/mailchimp")
+	@PostMapping(path = "/result")
+	public ModelAndView resultPost(@RequestParam String email) throws Exception {
+		CheckResponseDTO dto = formResponseService.checkResponse(email);
+		return new ModelAndView("processing", "dto", dto);
+	}
+	
+	
+	@PutMapping(path = "/result")
+	public ResponseEntity<String> resultPut(@RequestBody ModelMap map) throws Exception {
+		FormResponseResultDTO dtoResp = formResponseService.convertFrom(formResponseService.findById(((Integer)map.get("idFormResponse")).longValue()));
+		dtoResp.setChannel("web");
+		return ResponseEntity.ok(formResponseService.getHtmlResult(dtoResp));
+	}
+
+
+	@GetMapping(path = "/api/formprocessor/mailchimp")
 	@Transactional
 	public String mailchimp() throws Exception {
 		repo.findAll().forEach(f -> {
@@ -139,7 +144,7 @@ public class FormProcessorController {
 		return "ok";
 	}
 
-	@GetMapping(path = "/result/notfound")
+	@GetMapping(path = "/notfound")
 	public ModelAndView resultNotFound() throws Exception {
 		FormResponseResultDTO dtoResp = new FormResponseResultDTO();
 		dtoResp.setResult(Results.TYPE_11_Unknown);

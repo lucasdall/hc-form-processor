@@ -1,6 +1,8 @@
 package life.heartcare.formprocessor.service;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,13 +13,16 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import freemarker.template.Template;
 import life.heartcare.formprocessor.dto.AnswerDTO;
 import life.heartcare.formprocessor.dto.AnswerListDTO;
 import life.heartcare.formprocessor.dto.CheckResponseDTO;
+import life.heartcare.formprocessor.dto.DetailAnswersDTO;
 import life.heartcare.formprocessor.dto.FormResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseResultDTO;
 import life.heartcare.formprocessor.dto.FormResponseResumedDTO;
@@ -48,6 +53,9 @@ public class FormResponseService {
 	
 	@Autowired
 	private MailchimpService mailchimpService;
+	
+	@Autowired
+	private Template emailResult;	
 	
 	@Transactional
 	public List<FormResponseDTO> findByEmailOrderByIdFormResponseDesc(String email) {
@@ -98,8 +106,19 @@ public class FormResponseService {
 
 
 	@Transactional
+	public CheckResponseDTO checkResponse(String email) {
+		return checkResponse(email, null, null);
+	}
+
+	@Transactional
 	public CheckResponseDTO checkResponse(String email, Integer retryAttempt, Integer retryTimeout) {
 		log.info("begin - email[{}] retryAttempt[{}] retryTimeout[{}]", email, retryAttempt, retryTimeout);
+		if (retryAttempt == null) {
+			retryAttempt = 10;
+		}
+		if (retryTimeout == null) {
+			retryTimeout = 5000;
+		}
 		FormResponse fp = formResponseRepository.findTop1ByEmailOrderByIdFormResponseDesc(email);
 		Date lastMinute = DateUtils.addMinutes(new Date(), -1);
 		Boolean hasNewResponse = Boolean.FALSE;
@@ -135,10 +154,10 @@ public class FormResponseService {
 			resp.setRetryTimeout(retryTimeout);
 		}
 		if (lastAttempt) {
-			resp.setLink("/api/formprocessor/result/notfound");
+			resp.setLink("/notfound");
 			resp.setFinished(Boolean.TRUE);
 		} else if (resp.getFound()){
-			resp.setLink(String.format("/api/formprocessor/result/%s", email));
+			resp.setLink("/result");
 		} else {
 			resp.setLink(String.format("/api/formprocessor/findlatest/byemail/%s/%s/%s", email, resp.getRetryAttempt(), resp.getRetryTimeout()));
 		}
@@ -343,6 +362,17 @@ public class FormResponseService {
 		} finally {
 			log.info("end - mailchimp");
 		}
+	}
+	
+	public String getHtmlResult(FormResponseResultDTO dto) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", dto);
+		try {
+			return FreeMarkerTemplateUtils.processTemplateIntoString(emailResult, map);
+		} catch (Exception e) {
+			log.error("ERROR - getHtmlResult", e);
+		}
+		return null;
 	}
 	
 	
