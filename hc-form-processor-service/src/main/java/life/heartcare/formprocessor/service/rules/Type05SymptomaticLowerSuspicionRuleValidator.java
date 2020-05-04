@@ -28,7 +28,7 @@ public class Type05SymptomaticLowerSuspicionRuleValidator implements RuleValidat
 			if (hcSymptomsType != null && hcTestCond) {
 				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().testAny("nenhum destes");
 				if (hcSymptomsTypeCond && hcSymptomsBreathe != null) {
-					Boolean hcSymptomsBreatheCond = hcSymptomsBreathe.getChoices().testAny("está normal");
+					Boolean hcSymptomsBreatheCond = hcSymptomsBreathe.getChoices().getLabels().isEmpty() == false;
 					if (hcSymptomsBreatheCond && hcSymptomsOthers != null) {
 						Boolean hcSymptomsOthersCond = 
 								hcSymptomsOthers.getChoices().getLabels().isEmpty() == false
