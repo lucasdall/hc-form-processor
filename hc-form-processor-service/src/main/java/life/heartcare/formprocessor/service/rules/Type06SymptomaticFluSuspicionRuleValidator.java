@@ -16,6 +16,7 @@ public class Type06SymptomaticFluSuspicionRuleValidator implements RuleValidator
 		AnswerDTO hcSymptomsType = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_TYPE);
 		AnswerDTO hcSymptomsCritical = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_CRITICAL);
 		AnswerDTO hcSymptomsOthers = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_OTHERS);
+		AnswerDTO hcSymptomsBreathe = answers.getById(QuestionsLabelsId.HC_SYMPTOMS_BREATHE);
 
 		// RULE 01
 		if (hcTest != null) {
@@ -83,6 +84,29 @@ public class Type06SymptomaticFluSuspicionRuleValidator implements RuleValidator
 			}
 		}
 
+		// RULE 04
+		if (hcTest != null) {
+			Boolean hcTestCond = hcTest.getChoice()
+					.testAny("fiz o teste e tenho o resultado de covid-19 negativo",
+						  "fiz o teste, mas ainda estou aguardando o resultado",
+						  "quero fazer o teste",
+						  "não quero fazer o teste");
+			if (hcSymptomsType != null && hcTestCond) {
+				Boolean hcSymptomsTypeCond = hcSymptomsType.getChoices().testAny("nenhum destes") && hcSymptomsType.getChoices().getLabels().size() >= 1;
+				if (hcSymptomsTypeCond && hcSymptomsBreathe != null) {
+					Boolean hcSymptomsBreatheCond = hcSymptomsBreathe.getChoices().getLabels().isEmpty() == false && hcSymptomsBreathe.getChoices().testAny("está normal") == false;
+					if (hcSymptomsBreatheCond && hcSymptomsOthers != null) {
+						Boolean hcSymptomsOthersCond = 
+								hcSymptomsOthers.getChoices().getLabels().isEmpty() == false
+								&& hcSymptomsOthers.getChoices().testAny("falta de olfato","falta de paladar") == false;
+						if (hcSymptomsOthersCond) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		
 		return false;
 	}
 	
