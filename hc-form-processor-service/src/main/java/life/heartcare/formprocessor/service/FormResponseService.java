@@ -1,6 +1,5 @@
 package life.heartcare.formprocessor.service;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,6 @@ import freemarker.template.Template;
 import life.heartcare.formprocessor.dto.AnswerDTO;
 import life.heartcare.formprocessor.dto.AnswerListDTO;
 import life.heartcare.formprocessor.dto.CheckResponseDTO;
-import life.heartcare.formprocessor.dto.DetailAnswersDTO;
 import life.heartcare.formprocessor.dto.FormResponseDTO;
 import life.heartcare.formprocessor.dto.FormResponseResultDTO;
 import life.heartcare.formprocessor.dto.FormResponseResumedDTO;
@@ -114,13 +112,13 @@ public class FormResponseService {
 	public CheckResponseDTO checkResponse(String email, Integer retryAttempt, Integer retryTimeout) {
 		log.info("begin - email[{}] retryAttempt[{}] retryTimeout[{}]", email, retryAttempt, retryTimeout);
 		if (retryAttempt == null) {
-			retryAttempt = 10;
+			retryAttempt = 20;
 		}
 		if (retryTimeout == null) {
 			retryTimeout = 5000;
 		}
 		FormResponse fp = formResponseRepository.findTop1ByEmailOrderByIdFormResponseDesc(email);
-		Date lastMinute = DateUtils.addMinutes(new Date(), -1);
+		Date lastMinute = DateUtils.addMinutes(new Date(), -2);
 		Boolean hasNewResponse = Boolean.FALSE;
 		if (fp != null) {
 			Date savedAt = fp.getSavedAt();
