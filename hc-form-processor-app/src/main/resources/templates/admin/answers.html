@@ -89,7 +89,7 @@
 		  <tbody>
 			<#list answers as f>  
 			    <tr>
-			      <td><a onclick="openModal('${f.idFormResponse!}', '${f.result!}')"><strong>${f.idFormResponse}</strong></a> </td>
+			      <td><a onclick="openModal('${f.idFormResponse?string.computer}', '${f.result!}')"><strong>${f.idFormResponse?string.computer}</strong></a> </td>
 			      <td>${f.result!}</td>
 			      <td>${f.name!}</td>
 			      <td>${f.email!}</td>
