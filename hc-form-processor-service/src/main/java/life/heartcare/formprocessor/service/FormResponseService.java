@@ -261,6 +261,14 @@ public class FormResponseService {
 		}
 	}
 
+	@Transactional
+	public FormResponseDTO updatePayload(Long idFormResponse, String payload) throws Exception {
+		FormResponse f = formResponseRepository.findById(idFormResponse).get();
+		f.setPayload(payload);
+		formResponseRepository.save(f);
+		return modelMapper.map(f, FormResponseDTO.class);
+	}
+	
 	private void calcComorbidities(FormResponse entity, AnswerListDTO answers) {
 		try {
 			log.info("calc comorbidities score");
