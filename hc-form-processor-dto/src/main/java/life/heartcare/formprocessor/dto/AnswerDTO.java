@@ -37,7 +37,7 @@ public class AnswerDTO implements Serializable {
 	
 	private String date;
 	
-	private String number;
+	private Long number;
 	
 	private String classStyle;
 
@@ -54,7 +54,7 @@ public class AnswerDTO implements Serializable {
 		case EMAIL:
 			return email;
 		case NUMBER:
-			return number;
+			return String.valueOf(number);
 		case PHONE_NUMBER:
 			return phoneNumber;
 		case TEXT:

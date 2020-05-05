@@ -3,6 +3,7 @@ package life.heartcare.formprocessor.dto;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import life.heartcare.formprocessor.dto.enums.ComorbiditiesScore;
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
 
@@ -21,5 +22,7 @@ public class FormResponseResumedDTO {
 	private Date savedAt;
 
 	private Results result;
+	
+	private ComorbiditiesScore comorbiditiesScore;
 
 }

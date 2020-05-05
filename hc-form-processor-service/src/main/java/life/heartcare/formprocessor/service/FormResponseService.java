@@ -55,6 +55,9 @@ public class FormResponseService {
 	@Autowired
 	private Template emailResult;	
 	
+	@Autowired
+	private ComorbiditiesService comorbiditiesService;
+	
 	@Transactional
 	public List<FormResponseDTO> findByEmailOrderByIdFormResponseDesc(String email) {
 		return modelMapper.map(formResponseRepository.findByEmailOrderByIdFormResponseDesc(email), new TypeToken<List<FormResponseDTO>>() {}.getType());
@@ -220,6 +223,8 @@ public class FormResponseService {
 
 					Results result = rulesService.execute(answers);
 					entity.setResult(result);
+					
+					calcComorbidities(entity, answers);
 				}
 			}
 			
@@ -245,6 +250,7 @@ public class FormResponseService {
 			} catch (Exception e) {
 				log.error("ERROR - mailchimp - member subscription", e);
 			}
+
 			return dto;
 		} catch (Exception e) {
 			log.error("ERROR - webhookSave - email[{}] contentType[{}]", email, contentType);
@@ -252,6 +258,17 @@ public class FormResponseService {
 			throw e;
 		} finally {
 			log.info("end - webhookSave");
+		}
+	}
+
+	private void calcComorbidities(FormResponse entity, AnswerListDTO answers) {
+		try {
+			log.info("calc comorbidities score");
+			life.heartcare.formprocessor.dto.enums.ComorbiditiesScore score = comorbiditiesService.execute(answers);
+			entity.setComorbiditiesScore(score);
+			log.info("calc comorbidities score - [{}] [OK]", score);
+		} catch (Exception e) {
+			log.error("ERROR - calc comorbidities score", e);
 		}
 	}
 

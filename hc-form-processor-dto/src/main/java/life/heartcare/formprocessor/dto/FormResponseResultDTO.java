@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import life.heartcare.formprocessor.dto.enums.ComorbiditiesScore;
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
 
@@ -37,6 +38,8 @@ public class FormResponseResultDTO {
 	
 	private String link;
 	
+	private ComorbiditiesScore comorbiditiesScore;
+
 	public void loadDetail() {
 		switch (result) {
 		case TYPE_01_SymptomaticHighSuspicionOfCovid19:

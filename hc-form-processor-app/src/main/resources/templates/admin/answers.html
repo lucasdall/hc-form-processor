@@ -74,11 +74,12 @@
 		  <thead>
 		    <tr>
 		      <th>Id</th>
-		      <th>Resultado</abbr></th>      
+		      <th>Resultado</th>
+		      <th style="text-align:center;">Comorbidade</th>
 		      <th>Nome</th>
 		      <th>Email</th>
 		      <th>Telefone</th>
-			  <th>Pais</th>      
+			  <th>Pais</th>  
 		      <th>Data</th>
 		    </tr>
 		  </thead>
@@ -87,6 +88,7 @@
 			    <tr>
 			      <td><a onclick="openModal('${f.idFormResponse?string.computer}', '${f.result!}')"><strong>${f.idFormResponse?string.computer}</strong></a> </td>
 			      <td>${f.result!}</td>
+				  <td style="text-align:center;">${f.comorbiditiesScore!}</td>			      
 			      <td>${f.name!}</td>
 			      <td>${f.email!}</td>
 			      <td>${f.phone!}</td>

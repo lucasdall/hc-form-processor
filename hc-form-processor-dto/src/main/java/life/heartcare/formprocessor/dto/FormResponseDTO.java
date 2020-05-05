@@ -2,6 +2,7 @@ package life.heartcare.formprocessor.dto;
 
 import java.util.Date;
 
+import life.heartcare.formprocessor.dto.enums.ComorbiditiesScore;
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
 
@@ -38,4 +39,7 @@ public class FormResponseDTO {
 	private Results result;
 
 	private String mailchimpId;
+	
+	private ComorbiditiesScore comorbiditiesScore;
+
 }
