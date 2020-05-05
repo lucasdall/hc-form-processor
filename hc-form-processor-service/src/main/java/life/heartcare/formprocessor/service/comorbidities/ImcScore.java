@@ -21,7 +21,11 @@ public class ImcScore implements ScoreCalculator {
 		AnswerDTO hcWeight = answers.getById(QuestionsLabelsId.HC_WEIGHT);
 		Integer score = 0;
 		if (hcHeight != null && hcWeight != null) {
-			BigDecimal height = new BigDecimal(hcHeight.getText().replace(",", "."));
+			BigDecimal heightInCm = new BigDecimal(hcHeight.getText().replaceAll("\\D", ""));
+			if (heightInCm.doubleValue() > 100) {
+				heightInCm = heightInCm.divide(new BigDecimal("100"), mathCtx);
+			}
+			BigDecimal height = heightInCm;
 			BigDecimal weight = new BigDecimal(hcWeight.getNumber());
 			double imc = calcImc(height, weight).doubleValue();
 			
