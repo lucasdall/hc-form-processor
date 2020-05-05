@@ -33,7 +33,9 @@
   
 	<div class="container is-widescreen">
 		<div class="notification is-link is-light">
-  			<h3>${dto.formResponse.name!} - ${dto.formResponse.email!}</h3><strong>${dto.formResponse.result!}</strong>
+  			<h3>${dto.formResponse.name!} - ${dto.formResponse.email!}</h3>
+  			<h4><strong>Resultado:</strong>${dto.formResponse.result!}</h4>
+  			<h5><strong>Comorbidade:</strong>${dto.formResponse.comorbiditiesScore!}</h5>
 		</div>
 		<div class="columns is-multiline is-mobile">
 			<#list dto.answers as a>

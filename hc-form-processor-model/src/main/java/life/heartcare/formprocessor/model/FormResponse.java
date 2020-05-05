@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import life.heartcare.formprocessor.dto.enums.ComorbiditiesScore;
 import life.heartcare.formprocessor.dto.enums.Results;
 import lombok.Data;
 
@@ -70,5 +71,8 @@ public class FormResponse {
 	@Column(name = "mailchimp_id")
 	private String mailchimpId;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "comorbidities_score")
+	private ComorbiditiesScore comorbiditiesScore;
 	
 }
